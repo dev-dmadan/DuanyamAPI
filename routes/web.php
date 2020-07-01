@@ -18,3 +18,16 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('/login', 'LoginController@login');
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('lookups',  ['uses' => 'LookupController@showAllLookup']);
+    $router->get('lookups/grading',  ['uses' => 'LookupController@showAllGrading']);
+    $router->get('lookups/master-data-pengolahan',  ['uses' => 'LookupController@showAllMasterDataPengolahan']);
+    $router->get('lookups/master-data-bahan-baku',  ['uses' => 'LookupController@showAllMasterDataBahanBaku']);
+
+    $router->get('masters', ['uses' => 'MasterController@showAllMaster']);
+    $router->get('masters/lokasi', ['uses' => 'MasterController@showAllMasterLokasi']);
+    $router->get('masters/ibu', ['uses' => 'MasterController@showAllMasterIbu']);
+    // $router->get('production-orders/', ['uses' => 'AuthorController@create']);
+    // $router->get('monitoring-orders/{type}/{range?}', ['uses' => 'AuthorController@create']);
+});
