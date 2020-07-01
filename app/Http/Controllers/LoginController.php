@@ -24,9 +24,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $result = (Object)array(
-            'success' => false,
-            'message' => null,
-            'token' => null
+            'success'   => false,
+            'message'   => null,
+            'token'     => null
         );
         $status_code = 200;
         $isError = true;
@@ -66,12 +66,12 @@ class LoginController extends Controller
     private function generateToken($data)
     {
         $payload = array(
-            "iss" => env('APP_URL'),
-            "aud" => env('APP_URL'),
-            "iat" => time(),
-            "nbf" => time(),
-            "exp" => time() + (int)env('JWT_EXP'),
-            "data" => $data
+            "iss"   => env('APP_URL'),
+            "aud"   => env('APP_URL'),
+            "iat"   => time(),
+            "nbf"   => time(),
+            "exp"   => time() + (int)env('JWT_EXP'),
+            "data"  => $data
         );
         $jwt = JWT::encode($payload, env('JWT_KEY'));
 
