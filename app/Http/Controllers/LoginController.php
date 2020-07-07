@@ -24,9 +24,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $result = (Object)array(
-            'success'   => false,
-            'message'   => null,
-            'token'     => null
+            'Success'   => false,
+            'Message'   => null,
+            'Data'      => null
         );
         $status_code = 200;
         $isError = true;
@@ -41,7 +41,7 @@ class LoginController extends Controller
             }
 
             $dataUser = DB::table('users')->where('username', $userName)->get();
-            if(empty($dataUser)) {
+            if($dataUser->isEmpty()) {
                 $isError = false;
                 throw new Exception('Username atau Password anda salah');
             }
@@ -51,13 +51,17 @@ class LoginController extends Controller
                 throw new Exception('Username atau Password anda salah');
             }
 
-            $result->token = $this->generateToken((Object)array(
+            $result->Data = (Object)array();
+            $result->Data->UserId = $dataUser[0]->id;
+            $result->Data->Name = $dataUser[0]->name;
+            $result->Data->Token = $this->generateToken((Object)array(
+                'UserId' => $dataUser[0]->id,
                 'UserName' => $userName
             ));
-            $result->success = true;
+            $result->Success = true;
         } catch (Exception $e) {
             $status_code = $isError ? 400 : 200;
-            $result->message = $e->getMessage();
+            $result->Message = $e->getMessage();
         }
 
         return response()->json($result, $status_code);

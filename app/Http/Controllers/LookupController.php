@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
 use Exception;
 use App\Traits\CreatioHelperTrait;
 
@@ -20,7 +19,6 @@ class LookupController extends Controller
      */
     public function __construct()
     {
-        // 
         $this->creatioHelper();
     }
 

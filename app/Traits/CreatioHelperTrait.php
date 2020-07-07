@@ -42,6 +42,7 @@ trait CreatioHelperTrait
                         $response = Http::withOptions([
                             'cookies' => $this->jar,
                         ])->withHeaders([
+                            'ForceUseSession' => 'true',
                             'BPMCSRF' => $this->bpmcsrf
                         ])->get($uri, $data);
                         break;
@@ -50,6 +51,7 @@ trait CreatioHelperTrait
                         $response = Http::withOptions([
                             'cookies' => $this->jar,
                         ])->withHeaders([
+                            'ForceUseSession' => 'true',
                             'BPMCSRF' => $this->bpmcsrf
                         ])->post($uri, $data);
                         break;
@@ -58,6 +60,7 @@ trait CreatioHelperTrait
                         $response = Http::withOptions([
                             'cookies' => $this->jar,
                         ])->withHeaders([
+                            'ForceUseSession' => 'true',
                             'BPMCSRF' => $this->bpmcsrf
                         ])->put($uri, $data);
                         break;
@@ -66,6 +69,7 @@ trait CreatioHelperTrait
                         $response = Http::withOptions([
                             'cookies' => $this->jar,
                         ])->withHeaders([
+                            'ForceUseSession' => 'true',
                             'BPMCSRF' => $this->bpmcsrf
                         ])->patch($uri, $data);
                         break;
@@ -74,6 +78,7 @@ trait CreatioHelperTrait
                         $response = Http::withOptions([
                             'cookies' => $this->jar,
                         ])->withHeaders([
+                            'ForceUseSession' => 'true',
                             'BPMCSRF' => $this->bpmcsrf
                         ])->delete($uri);
                         break;
@@ -82,6 +87,7 @@ trait CreatioHelperTrait
                         $response = Http::withOptions([
                             'cookies' => $this->jar,
                         ])->withHeaders([
+                            'ForceUseSession' => 'true',
                             'BPMCSRF' => $this->bpmcsrf
                         ])->get($uri, $data);
                         break;
@@ -124,7 +130,6 @@ trait CreatioHelperTrait
             'Message' => null
         );
 
-        $client = new \GuzzleHttp\Client(['cookies' => true]);
         $uri = env('CREATIO_URL'). '/ServiceModel/AuthService.svc/Login';
         try {
             Cache::forget('creatio_cookies');
@@ -132,6 +137,8 @@ trait CreatioHelperTrait
 
             $response = Http::withOptions([
                 'cookies' => $this->jar,
+            ])->withHeaders([
+                'ForceUseSession' => 'true'
             ])->post($uri, [
                 'UserName' => env('CREATIO_USERNAME'),
                 'UserPassword' => env('CREATIO_PASSWORD'),
