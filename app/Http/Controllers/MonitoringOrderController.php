@@ -85,4 +85,17 @@ class MonitoringOrderController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function showOfflineProductionOrder($userId, $rangeDate)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamAPI',
+            'method' => 'OfflineMonitoringOrder'
+        ], 'GET', true, [
+            'UserId' => $userId,
+            'RangeDate' => $rangeDate
+        ]);
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
 }
