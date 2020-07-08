@@ -42,6 +42,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->get('production-order/alokasi-lokasi/{alokasiId}',  ['uses' => 'ProductionOrderController@showOneAlokasiLokasi']);
         $router->get('production-order/alokasi-ibu/ibu/{ibuId}',  ['uses' => 'ProductionOrderController@showAllAlokasiIbuByIbu']);
         $router->get('production-order/alokasi-ibu/alokasi-lokasi/{alokasiLokasiId}',  ['uses' => 'ProductionOrderController@showAllAlokasiIbuByAlokasiLokasi']);
+        $router->get('production-order/offline/{userId}/range-date/{rangeDate}',  ['uses' => 'ProductionOrderController@showOfflineProductionOrder']);
     /** End Production Order */
 
     /** Monitoring Order */
@@ -50,5 +51,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->get('monitoring-order/{monitoringOrderId}/jasa-pucuk',  ['uses' => 'MonitoringOrderController@showAllJasaPucuk']);
         $router->get('monitoring-order/{monitoringOrderId}/monitoring-ibu',  ['uses' => 'MonitoringOrderController@showAllMonitoringIbu']);
         $router->get('monitoring-order/monitoring-ibu/{monitoringIbuId}',  ['uses' => 'MonitoringOrderController@showAllDetailMonitoringIbu']);
+        $router->get('monitoring-order/offline/{userId}/range-date/{rangeDate}',  ['uses' => 'MonitoringOrderController@showOfflineProductionOrder']);
     /** End Monitoring Order */
 });
