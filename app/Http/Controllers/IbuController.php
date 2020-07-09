@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Exception;
 use App\Traits\CreatioHelperTrait;
 
-class LokasiController extends Controller
+class IbuController extends Controller
 {
     use CreatioHelperTrait {
         CreatioHelperTrait::__construct as private creatioHelper;
@@ -23,12 +23,12 @@ class LokasiController extends Controller
         $this->creatioHelper();
     }
 
-    public function showAllLokasi($page, Request $request)
+    public function showAllIbu($page, Request $request)
     {
         $search = $request->query('Search') != null ? $request->query('Search') : '';
         $response = $this->restCreatio([
             'service' => 'DuanyamAPI',
-            'method' => 'Lokasi'
+            'method' => 'Ibu'
         ], 'GET', true, [
             'Page' => $page,
             'Search' => $search
@@ -37,12 +37,18 @@ class LokasiController extends Controller
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
 
-    public function showOfflineLokasi()
+    public function showAllIbuByLokasi($lokasiId, $page, Request $request)
     {
+        $search = $request->query('Search') != null ? $request->query('Search') : '';
         $response = $this->restCreatio([
             'service' => 'DuanyamAPI',
-            'method' => 'OfflineLokasi'
-        ], 'GET');
+            'method' => 'IbuByLokasi'
+        ], 'GET', true, [
+            'LokasiId' => $lokasiId,
+            'IsOnlyActivePO' => 0,
+            'Page' => $page,
+            'Search' => $search
+        ]);
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }

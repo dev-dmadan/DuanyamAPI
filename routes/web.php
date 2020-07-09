@@ -29,6 +29,11 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->get('lookups/master-data-bahan-baku',  ['uses' => 'LookupController@showAllMasterDataBahanBaku']);
     /** End Lookup */
 
+    /** Ibu */
+        $router->get('ibu/page/{page}',  ['uses' => 'IbuController@showAllIbu']);
+        $router->get('ibu/lokasi/{lokasiId}/page/{page}',  ['uses' => 'IbuController@showAllIbuByLokasi']);
+    /** End Ibu */
+
     /** Lokasi */
         $router->get('lokasi/page/{page}',  ['uses' => 'LokasiController@showAllLokasi']);
         $router->get('lokasi/offline',  ['uses' => 'LokasiController@showOfflineLokasi']);
