@@ -78,9 +78,9 @@ class MonitoringOrderController extends Controller
     {
         $response = $this->restCreatio([
             'service' => 'DuanyamAPI',
-            'method' => 'MonitoringIbu'
+            'method' => 'DetailMonitoringIbu'
         ], 'GET', true, [
-            'MonitoringOrderId' => $monitoringIbuId
+            'MonitoringIbuId' => $monitoringIbuId
         ]);
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
