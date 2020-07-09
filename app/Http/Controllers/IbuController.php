@@ -45,7 +45,7 @@ class IbuController extends Controller
             'method' => 'IbuByLokasi'
         ], 'GET', true, [
             'LokasiId' => $lokasiId,
-            'IsOnlyActivePO' => 0,
+            'IsOnlyActivePO' => 1,
             'Page' => $page,
             'Search' => $search
         ]);
