@@ -130,4 +130,44 @@ class ProductionOrderController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function updateAlokasiIbuByAlokasiLokasi($alokasiLokasiId, Request $request)
+    {  
+        $response = (Object)array(
+            'Success' => false,
+            'Message' => null
+        );
+        try {
+            if(empty($alokasiLokasiId)) {
+                throw new Exception("Alokasi Lokasi Id tidak boleh kosong");
+            }
+
+            if(!$request->has('Data') || count($request->input('Data')) < 1) {
+                throw new Exception("Alokasi Ibu tidak boleh kosong");
+            }
+            
+            $newAlokasiIbu = array_map(function($value) {
+                $newData = array();
+                foreach($value as $k => $v) {
+                    $newData[ucfirst($k)] = $v;
+                }
+                return $newData;
+            }, $request->input('Data'));
+
+            $responseCreatio = $this->restCreatio([
+                'service' => 'DuanyamAPI',
+                'method' => 'UpdateAlokasiIbu'
+            ], 'POST', false, [
+                'AlokasiLokasiId' => $alokasiLokasiId,
+                'AlokasiIbu' => $newAlokasiIbu
+            ]);
+            
+            $response->Success = $responseCreatio->Response != null ? $responseCreatio->Response->Success : $responseCreatio->Success;
+            $response->Message = $responseCreatio->Response != null ? $responseCreatio->Response->Message : $responseCreatio->Message;
+        } catch (Exception $e) {
+            $response->Message = $e->getMessage();
+        }
+        
+        return response()->json($response);
+    }
 }

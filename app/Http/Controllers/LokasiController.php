@@ -37,6 +37,18 @@ class LokasiController extends Controller
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
 
+    public function showOneLokasi($id)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamAPI',
+            'method' => 'LokasiById'
+        ], 'GET', true, [
+            'LokasiId' => $id
+        ]);
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
     public function showOfflineLokasi()
     {
         $response = $this->restCreatio([

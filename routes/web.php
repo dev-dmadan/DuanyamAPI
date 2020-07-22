@@ -13,10 +13,7 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
+$router->post('/sync-user', ['middleware' => 'auth_secret_key', 'uses' => 'SyncUserController@syncUser']);
 $router->post('/login', 'LoginController@login');
 
 // api
@@ -31,12 +28,14 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
 
     /** Ibu */
         $router->get('ibu/page/{page}',  ['uses' => 'IbuController@showAllIbu']);
+        $router->get('ibu/{id}',  ['uses' => 'IbuController@showOneIbu']);
         $router->get('ibu/lokasi/{lokasiId}/page/{page}',  ['uses' => 'IbuController@showAllIbuByLokasi']);
     /** End Ibu */
 
     /** Lokasi */
         $router->get('lokasi/page/{page}',  ['uses' => 'LokasiController@showAllLokasi']);
         $router->get('lokasi/offline',  ['uses' => 'LokasiController@showOfflineLokasi']);
+        $router->get('lokasi/{id}',  ['uses' => 'LokasiController@showOneLokasi']);
     /** End Lokasi */
 
     /** Production Order */
@@ -48,6 +47,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->get('production-order/alokasi-ibu/ibu/{ibuId}',  ['uses' => 'ProductionOrderController@showAllAlokasiIbuByIbu']);
         $router->get('production-order/alokasi-ibu/alokasi-lokasi/{alokasiLokasiId}',  ['uses' => 'ProductionOrderController@showAllAlokasiIbuByAlokasiLokasi']);
         $router->get('production-order/offline/{userId}/range-date/{rangeDate}',  ['uses' => 'ProductionOrderController@showOfflineProductionOrder']);
+
+        $router->put('production-order/alokasi-ibu/alokasi-lokasi/{alokasiLokasiId}',  ['uses' => 'ProductionOrderController@updateAlokasiIbuByAlokasiLokasi']);
+        $router->post('production-order/sync/alokasi-ibu',  ['uses' => 'ProductionOrderController@syncAllAlokasiIbu']);
     /** End Production Order */
 
     /** Monitoring Order */
@@ -57,5 +59,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->get('monitoring-order/{monitoringOrderId}/monitoring-ibu',  ['uses' => 'MonitoringOrderController@showAllMonitoringIbu']);
         $router->get('monitoring-order/monitoring-ibu/{monitoringIbuId}',  ['uses' => 'MonitoringOrderController@showAllDetailMonitoringIbu']);
         $router->get('monitoring-order/offline/{userId}/range-date/{rangeDate}',  ['uses' => 'MonitoringOrderController@showOfflineProductionOrder']);
+
+        $router->post('monitoring-order/user/{userId}',  ['uses' => 'MonitoringOrderController@storeMonitorinOrder']);
+        $router->post('monitoring-order/sync/user/{userId}',  ['uses' => 'MonitoringOrderController@syncAllMonitorinOrder']);
     /** End Monitoring Order */
+    
 });

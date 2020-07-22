@@ -37,6 +37,18 @@ class IbuController extends Controller
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
 
+    public function showOneIbu($id)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamAPI',
+            'method' => 'IbuById'
+        ], 'GET', true, [
+            'IbuId' => $id
+        ]);
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
     public function showAllIbuByLokasi($lokasiId, $page, Request $request)
     {
         $search = $request->query('Search') != null ? $request->query('Search') : '';

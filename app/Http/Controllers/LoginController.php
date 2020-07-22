@@ -56,7 +56,8 @@ class LoginController extends Controller
             $result->Data->Name = $dataUser[0]->name;
             $result->Data->Token = $this->generateToken((Object)array(
                 'UserId' => $dataUser[0]->id,
-                'UserName' => $userName
+                'UserName' => $userName,
+                'Name' => $dataUser[0]->name
             ));
             $result->Success = true;
         } catch (Exception $e) {

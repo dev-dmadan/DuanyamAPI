@@ -101,7 +101,7 @@ trait CreatioHelperTrait
                 $body = (Object)$response->json();
                 if($useWrapped) {
                     $resultName = $endpoint_->method. 'Result';
-                    $body = $body->$resultName;
+                    $body = (Object)$body->$resultName;
                 }
 
                 $result->Success = true;

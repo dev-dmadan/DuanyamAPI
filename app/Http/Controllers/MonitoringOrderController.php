@@ -98,4 +98,39 @@ class MonitoringOrderController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function storeMonitorinOrder($userId, Request $request)
+    {
+        $response = (Object)array(
+            'Success' => false,
+            'Message' => null
+        );
+
+        try {
+            if(!$request->has('UserName')) {
+                throw new Exception("Nama user tidak boleh kosong");
+            }
+
+            if(!$request->has('Data') || count($request->input('Data')) < 1) {
+                throw new Exception("Data Monitoring Order tidak boleh kosong");
+            }
+    
+            $data = $request->input('Data');
+            $responseCreatio = $this->restCreatio([
+                'service' => 'DuanyamAPI',
+                'method' => 'PostMonitoringOrder'
+            ], 'POST', true, [
+                'Data' => $data,
+                'UserId' => $userId,
+                'UserName' => $request->input('UserName')
+            ]);
+
+            $response->Success = $responseCreatio->Response != null ? $responseCreatio->Response->Success : $responseCreatio->Success;
+            $response->Message = $responseCreatio->Response != null ? $responseCreatio->Response->Message : $responseCreatio->Message;
+        } catch (Exception $e) {
+            $response->Message = $e->getMessage();
+        }
+        
+        return response()->json($response);
+    }
 }
