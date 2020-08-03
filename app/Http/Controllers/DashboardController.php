@@ -22,8 +22,9 @@ class DashboardController extends Controller
                 (Object)[
                     'text' => 'No. PO',
                     'value' => json_encode([
-                        'type' => 'lookup',
-                        'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
+                        'type' => 'text',
+                        'placeholder' => 'Masukkan nama proyek'
+                        // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
                 ],
                 (Object)[
@@ -44,7 +45,7 @@ class DashboardController extends Controller
                     'text' => 'Created On',
                     'value' => json_encode([
                         'type' => 'range-date',
-                        'placeholder' => 'Masukkan Tanggal Created On'
+                        'placeholder' => 'Masukkan Created On'
                     ])
                 ]
             ]

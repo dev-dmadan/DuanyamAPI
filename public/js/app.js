@@ -3,8 +3,12 @@ const SELECT_FILTER = document.querySelector('#select-filter');
 const DISPLAY_DATA = document.querySelector('#display-data');
 let IS_DISPLAY_DATA = true;
 
-document.addEventListener('DOMContentLoaded', function () {
+showLoading(isShow = true);
+window.onload = () => {
+    showLoading(isShow = false);
+};
 
+document.addEventListener('DOMContentLoaded', function () {
     /** Dropdown */
         if(DROPDOWN.length > 0) {
             DROPDOWN.forEach(function(element) {
@@ -33,6 +37,15 @@ function closeDropdowns() {
     DROPDOWN.forEach(function (element) {
         element.classList.remove('is-active');
     });
+}
+
+function showLoading({isShow = true}) {
+    const loading = document.querySelector('.loader-wrapper');
+    if(isShow) {
+        loading.classList.toggle('is-active');
+    } else {
+        loading.classList.remove('is-active');
+    }
 }
 
 function showDashboard() {
@@ -90,18 +103,18 @@ function handlingFilter(scope) {
 
                 break;
 
-            case 'lookup':
-                searchFilter =  '<select id="select-filter">' +
-                                    `<option selected disabled>${jsonFilter.value[0]}</option>` +
-                                '</select>';
-                div.setAttribute("class", "select is-small is-rounded");
-                div.innerHTML = searchFilter;
-                document.querySelector('.field.is-horizontal').appendChild(div);
-                // document.querySelector('#search-button').addEventListener('click', function() {
-                //     const value = document.querySelector('#field-pencarian').value;
-                //     onClickSearch(value);
-                // });
-                break;
+            // case 'lookup':
+            //     searchFilter =  '<select id="select-filter">' +
+            //                         `<option selected disabled>${jsonFilter.value[0]}</option>` +
+            //                     '</select>';
+            //     div.setAttribute("class", "select is-small is-rounded");
+            //     div.innerHTML = searchFilter;
+            //     document.querySelector('.field.is-horizontal').appendChild(div);
+            //     // document.querySelector('#search-button').addEventListener('click', function() {
+            //     //     const value = document.querySelector('#field-pencarian').value;
+            //     //     onClickSearch(value);
+            //     // });
+            //     break;
 
             case 'date':
                 searchFilter =  '<div class="control">' +

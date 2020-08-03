@@ -27,11 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function onClickDisplayData() {
     console.log('Display data dashboard realisasi produksi per po');
 
-    if(IS_DISPLAY_DATA) {
-        showDetail();
-    } else {
-        showDashboard();
-    }
+    showLoading(isShow = true);
+
+    // proses
+    setTimeout(() => {
+        showLoading(isShow = false);
+
+        if(IS_DISPLAY_DATA) {
+            showDetail();
+        } else {
+            showDashboard();
+        }
+    }, 3000);
 }
 
 function onClickSearch(value) {
@@ -39,5 +46,5 @@ function onClickSearch(value) {
 }
 
 function onClickShowMore() {
-    
+    console.log('%c onClickShowMore: ', 'color: green');
 }
