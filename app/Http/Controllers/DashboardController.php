@@ -23,7 +23,7 @@ class DashboardController extends Controller
                     'text' => 'No. PO',
                     'value' => json_encode([
                         'type' => 'text',
-                        'placeholder' => 'Masukkan nama proyek'
+                        'placeholder' => 'Masukkan No PO'
                         // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
                 ],
@@ -34,20 +34,20 @@ class DashboardController extends Controller
                         'placeholder' => 'Masukkan nama proyek'
                     ])
                 ],
-                (Object)[
-                    'text' => 'Tanggal PO',
-                    'value' => json_encode([
-                        'type' => 'date',
-                        'placeholder' => 'Masukkan Tanggal PO'
-                    ])
-                ],
-                (Object)[
-                    'text' => 'Created On',
-                    'value' => json_encode([
-                        'type' => 'range-date',
-                        'placeholder' => 'Masukkan Created On'
-                    ])
-                ]
+                // (Object)[
+                //     'text' => 'Tanggal PO',
+                //     'value' => json_encode([
+                //         'type' => 'date',
+                //         'placeholder' => 'Masukkan Tanggal PO'
+                //     ])
+                // ],
+                // (Object)[
+                //     'text' => 'Created On',
+                //     'value' => json_encode([
+                //         'type' => 'range-date',
+                //         'placeholder' => 'Masukkan Created On'
+                //     ])
+                // ]
             ]
         ]);
     }
