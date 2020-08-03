@@ -158,8 +158,8 @@ trait CreatioHelperTrait
             $result->Message = $e->getMessage();
         } finally {
             if($result->Success) {
-                Cache::put('creatio_cookies', $this->jar, time() + 7200);
-                Cache::put('creatio_bpmcsrf', $this->bpmcsrf, time() + 7200);
+                Cache::put('creatio_cookies', $this->jar, time() + 86400);
+                Cache::put('creatio_bpmcsrf', $this->bpmcsrf, time() + 86400);
             }
         }
 

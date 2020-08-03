@@ -17,16 +17,24 @@ class AuthSecretKeyMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $secretKey = $request->has('DUANYAM_API_SECRET_KEY') ? $request->input('DUANYAM_API_SECRET_KEY') : null;
+        $secretKey = $request->has('DUANYAM_API_SECRET_KEY') ? $request->input('DUANYAM_API_SECRET_KEY') : (
+            $request->query('SecretKey') != null ? $request->query('SecretKey') : null
+        );
         $secretKeyHash = env('API_SECRET_KEY');
 
         try {
             if(!$secretKey) {
                 throw new Exception('Secret key is empty');
             }
-
-            if(!Hash::check($secretKey, $secretKeyHash)) {
-                throw new Exception('Secret key is wrong');
+            
+            if($request->has('DUANYAM_API_SECRET_KEY')) {
+                if(!Hash::check($secretKey, $secretKeyHash)) {
+                    throw new Exception('Secret key is wrong');
+                }
+            } else {
+                if($secretKey != $secretKeyHash) {
+                    throw new Exception('Secret key is wrong');
+                }
             }
         } catch (Exception $e) {
             return response()->json([

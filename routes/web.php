@@ -65,3 +65,20 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
     /** End Monitoring Order */
     
 });
+
+// dashboard
+$router->group(['prefix' => 'dashboard', 'middleware' => 'auth_secret_key'], function () use ($router) {
+    $router->get('realisasi-produksi-per-po',  ['uses' => 'DashboardController@realisasiProduksiPerPO']);
+    $router->get('realisasi-produksi-per-lokasi',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('realisasi-produksi-per-lokasi-per-po',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('realisasi-per-item-grading',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('total-biaya-per-po',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('pendapatan-per-lokasi',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('pendapatan-per-ibu',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('top-x-ibu',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('avarage-pendapatan-per-lokasi',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('raport-ibu',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('jumlah-ibu-aktif-per-periode',  ['uses' => 'DashboardController@showAllLookup']);
+
+    $router->get('lookup/production-order/page/{page}',  ['uses' => 'ProductionOrderController@showAllProductionOrder']);
+});
