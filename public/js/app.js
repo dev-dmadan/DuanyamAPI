@@ -1,11 +1,12 @@
 const DROPDOWN = document.querySelectorAll('.dropdown');
 const SELECT_FILTER = document.querySelector('#select-filter');
+const SELECT_FILTER_CUSTOM = document.querySelector('#select-filter-custom');
 const DISPLAY_DATA = document.querySelector('#display-data');
 let IS_DISPLAY_DATA = true;
 
-showLoading(isShow = true);
+showLoading({isShow: true});
 window.onload = () => {
-    showLoading(isShow = false);
+    showLoading({isShow: false});
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -25,8 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
     /** End Dropdown */
     
     SELECT_FILTER.addEventListener('change', function() {
-        handlingFilter(this);
+        handlingFilter({scope: this});
     });
+
+    if(SELECT_FILTER_CUSTOM != null) {
+        SELECT_FILTER_CUSTOM.addEventListener('change', function() {
+            handlingFilter({scope: this, isCustom: true});
+        });
+    }
 
     DISPLAY_DATA.addEventListener('click', function (event) {
         onClickDisplayData();
@@ -70,11 +77,16 @@ function showDetail() {
     detailChart.classList.remove('is-hidden');
 }
 
-function handlingFilter(scope) {
-    if(document.querySelector('.field.is-horizontal .field').nextElementSibling != null) {
-        document.querySelector('.field.is-horizontal .field').nextElementSibling.remove();
+function handlingFilter({scope, isCustom = false}) {
+    const parentFilter = scope.parentElement.parentElement;
+    const rootFilter = parentFilter.parentElement;
+
+    if(parentFilter.nextElementSibling != null) {
+        parentFilter.nextElementSibling.remove();
     }
 
+    let fieldPencarianId = isCustom ? 'field-pencarian-custom' : 'field-pencarian';
+    let searchButtonId = isCustom ? 'search-button-cutom' : 'search-button';
     let jsonFilter = {};
     try {
         jsonFilter = JSON.parse(scope.value);
@@ -83,10 +95,10 @@ function handlingFilter(scope) {
         switch (jsonFilter.type) {
             case 'text':
                 searchFilter =  '<div class="control">' +
-                                    `<input id="field-pencarian" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder}">` +
+                                    `<input id="${fieldPencarianId}" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder}">` +
                                 '</div>' +
                                 '<div class="control">' +
-                                    '<a class="button is-success is-small is-rounded" id="search-button">' +
+                                    `<a class="button is-success is-small is-rounded" id="${searchButtonId}">` +
                                         '<span class="icon is-small">' + 
                                             '<i class="fas fa-search"></i>' +
                                         '</span>' +
@@ -95,9 +107,9 @@ function handlingFilter(scope) {
                                 
                 div.setAttribute("class", "field has-addons");
                 div.innerHTML = searchFilter;
-                document.querySelector('.field.is-horizontal').appendChild(div);
-                document.querySelector('#search-button').addEventListener('click', function() {
-                    const value = document.querySelector('#field-pencarian').value;
+                rootFilter.appendChild(div);
+                document.querySelector(`#${searchButtonId}`).addEventListener('click', function() {
+                    const value = document.querySelector(`#${fieldPencarianId}`).value;
                     onClickSearch(value);
                 });
 
@@ -127,10 +139,10 @@ function handlingFilter(scope) {
                                     '</span>' +
                                 '</div>' +
                                 '<div class="control">' +
-                                    `<input id="field-pencarian" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder}">` +
+                                    `<input id="${fieldPencarianId}" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder}">` +
                                 '</div>' +
                                 '<div class="control">' +
-                                    '<a class="button is-success is-small is-rounded" id="search-button">' +
+                                    `<a class="button is-success is-small is-rounded" id="${searchButtonId}">` +
                                         '<span class="icon is-small">' + 
                                             '<i class="fas fa-search"></i>' +
                                         '</span>' +
@@ -138,11 +150,11 @@ function handlingFilter(scope) {
                                 '</div>';
                 div.setAttribute("class", "field has-addons");
                 div.innerHTML = searchFilter;
-                document.querySelector('.field.is-horizontal').appendChild(div);
+                rootFilter.appendChild(div);
                 new Litepicker({ element: document.getElementById('field-pencarian') });
 
-                document.querySelector('#search-button').addEventListener('click', function() {
-                    const value = document.querySelector('#field-pencarian').value;
+                document.querySelector(`#${searchButtonId}`).addEventListener('click', function() {
+                    const value = document.querySelector(`#${fieldPencarianId}`).value;
                     onClickSearch(value);
                 });
                 
@@ -150,13 +162,13 @@ function handlingFilter(scope) {
 
             case 'range-date':
                 searchFilter =  '<div class="control">' +
-                                    `<input id="field-pencarian-start" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder} mulai">` +
+                                    `<input id="${fieldPencarianId}-start" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder} mulai">` +
                                 '</div>' +
                                 '<div class="control">' +
-                                    `<input id="field-pencarian-end" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder} berakhir">` +
+                                    `<input id="${fieldPencarianId}-end" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder} berakhir">` +
                                 '</div>' +
                                 '<div class="control">' +
-                                    '<a class="button is-success is-small is-rounded" id="search-button">' +
+                                    `<a class="button is-success is-small is-rounded" id="${searchButtonId}">` +
                                         '<span class="icon is-small">' + 
                                             '<i class="fas fa-search"></i>' +
                                         '</span>' +
@@ -164,18 +176,20 @@ function handlingFilter(scope) {
                                 '</div>';
                 div.setAttribute("class", "field has-addons");
                 div.innerHTML = searchFilter;
-                document.querySelector('.field.is-horizontal').appendChild(div);
+                rootFilter.appendChild(div);
+
                 new Litepicker({ 
-                    element: document.getElementById('field-pencarian-start'),
-                    elementEnd: document.getElementById('field-pencarian-end'),
+                    element: document.getElementById(`${fieldPencarianId}-start`),
+                    elementEnd: document.getElementById(`${fieldPencarianId}-end`),
                     singleMode: false,
                     numberOfMonths: 2,
                     numberOfColumns: 2
                 });
 
-                document.querySelector('#search-button').addEventListener('click', function() {
-                    const value = document.querySelector('#field-pencarian').value;
-                    onClickSearch(value);
+                document.querySelector(`#${searchButtonId}`).addEventListener('click', function() {
+                    const valueStart = document.querySelector(`#${fieldPencarianId}-start`).value;
+                    const valueEnd = document.querySelector(`#${fieldPencarianId}-end`).value;
+                    onClickSearch({valueStart, valueEnd});
                 });
                 break;
         

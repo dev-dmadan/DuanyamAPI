@@ -71,14 +71,16 @@ $router->group(['prefix' => 'dashboard', 'middleware' => 'auth_secret_key'], fun
     $router->get('realisasi-produksi-per-po',  ['uses' => 'DashboardController@realisasiProduksiPerPO']);
     $router->get('realisasi-produksi-per-lokasi',  ['uses' => 'DashboardController@showAllLookup']);
     $router->get('realisasi-produksi-per-lokasi-per-po',  ['uses' => 'DashboardController@showAllLookup']);
-    $router->get('realisasi-per-item-grading',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('realisasi-per-item-grading',  ['uses' => 'DashboardController@realisasiPerItemGrading']);
+    $router->get('realisasi-per-item-grading-per-produk',  ['uses' => 'DashboardController@realisasiPerItemGradingPerProduk']);
     $router->get('total-biaya-per-po',  ['uses' => 'DashboardController@showAllLookup']);
-    $router->get('pendapatan-per-lokasi',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('pendapatan-per-lokasi',  ['uses' => 'DashboardController@pendapatanPerLokasi']);
     $router->get('pendapatan-per-ibu',  ['uses' => 'DashboardController@showAllLookup']);
-    $router->get('top-x-ibu',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('top-x-ibu',  ['uses' => 'DashboardController@topXibu']);
     $router->get('avarage-pendapatan-per-lokasi',  ['uses' => 'DashboardController@showAllLookup']);
     $router->get('raport-ibu',  ['uses' => 'DashboardController@showAllLookup']);
-    $router->get('jumlah-ibu-aktif-per-periode',  ['uses' => 'DashboardController@showAllLookup']);
+    $router->get('jumlah-ibu-aktif-per-lokasi',  ['uses' => 'DashboardController@jumlahIbuAktifPerLokasi']);
+    $router->get('jumlah-ibu-aktif-per-periode',  ['uses' => 'DashboardController@jumlahIbuAktifPerPeriode']);
 
     $router->get('lookup/production-order/page/{page}',  ['uses' => 'ProductionOrderController@showAllProductionOrder']);
 });
