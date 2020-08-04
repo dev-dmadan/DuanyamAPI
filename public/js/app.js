@@ -111,6 +111,7 @@ function showDashboard() {
 
     chart.classList.remove('is-hidden');
     detailChart.classList.toggle('is-hidden');
+    document.querySelector('.dropdown .dropdown-menu').children[1].remove();
 }
 
 function showDetail() {
@@ -122,6 +123,15 @@ function showDetail() {
 
     chart.classList.toggle('is-hidden');
     detailChart.classList.remove('is-hidden');
+
+    const div = document.createElement('div');
+    div.setAttribute("class", "dropdown-content");
+    div.innerHTML = '<a id="export-data" href="javascript:void(0);" class="dropdown-item" disabled>Export data</a>';
+    document.querySelector('.dropdown .dropdown-menu').appendChild(div);
+    document.querySelector('#export-data').addEventListener('click', function() {
+        // onClickExportData();
+        alert('Export');
+    });
 }
 
 function handlingFilter({scope, isCustom = false}) {
@@ -141,7 +151,7 @@ function handlingFilter({scope, isCustom = false}) {
     try {
         jsonFilter = JSON.parse(scope.value);
         let searchFilter = '';
-        let div = document.createElement('div');
+        const div = document.createElement('div');
         switch (jsonFilter.type) {
             case 'text':
                 searchFilter =  '<div class="control">' +
