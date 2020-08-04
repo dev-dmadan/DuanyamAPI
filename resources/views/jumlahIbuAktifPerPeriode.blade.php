@@ -6,7 +6,7 @@
             <tr>
                 <th>Lokasi</th>
                 <th>Ibu</th>
-                <th>Tanggal Monitoring</th>
+                <th>Periode</th>
             </tr>
         </thead>
         <tbody>

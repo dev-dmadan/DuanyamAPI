@@ -1,25 +1,78 @@
 document.addEventListener('DOMContentLoaded', function() {
     const myChart = Highcharts.chart('chart', {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
         title: {
-            text: 'Fruit Consumption'
+            text: null
         },
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            categories: ['PO-2020-001', 'PO-2020-002', 'PO-2020-003', 'PO-2020-004']
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: '% Persentase'
             }
         },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: event => {
+                        console.log('%c on click series: ', 'color: blue', event);
+
+                        showLoading({isShow: true});
+
+                        // proses
+                        setTimeout(() => {
+                            showLoading({isShow: false});
+
+                            showDetail();
+                        }, 3000);
+                    }
+                }
+            }
+        },
+        tooltip: {
+            formatter: function() {
+                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
+                                `<span style="font-size: 12px">${this.series.name}: <strong>${Highcharts.numberFormat(this.y, 2, ',', '.')} %</strong></span>`;
+                return newLabel;
+            }
+        },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -5
+                        },
+                        title: {
+                            text: null
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+            }]
+        },
+        credits: {
+            enabled: false
+        },
         series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
+            name: '% Realisasi',
+            data: [75, 34, 50, 100]
         }]
     });
 });

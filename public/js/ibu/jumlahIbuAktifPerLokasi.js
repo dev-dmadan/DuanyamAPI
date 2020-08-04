@@ -1,26 +1,83 @@
 document.addEventListener('DOMContentLoaded', function() {
     const myChart = Highcharts.chart('chart', {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
         title: {
-            text: 'Fruit Consumption'
+            text: null
         },
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            categories: ['Bandung', 'Bogor', 'Jakarta']
         },
         yAxis: {
+            min: 0,
             title: {
-                text: 'Fruit eaten'
+                text: 'Jumlah ibu aktif'
+            },
+        },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: event => {
+                        console.log('%c on click series: ', 'color: blue', event);
+
+                        showLoading({isShow: true});
+
+                        // proses
+                        setTimeout(() => {
+                            showLoading({isShow: false});
+
+                            showDetail();
+                        }, 3000);
+                    }
+                }
+            },
+        },
+        tooltip: {
+            formatter: function() {
+                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
+                                `<span style="font-size: 12px">${this.series.name}: <strong>${this.y}</strong></span>`;
+                return newLabel;
             }
         },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -5
+                        },
+                        title: {
+                            text: null
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+            }]
+        },
+        credits: {
+            enabled: false
+        },
+        series: [
+            {
+                name: 'Jumlah ibu aktif',
+                color: getColor('blue'),
+                data: [5, 10, 3]
+            }
+        ]
     });
 });
 

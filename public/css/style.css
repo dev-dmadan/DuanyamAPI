@@ -7,6 +7,9 @@
     src: url('/font/font-bpm/BpmonlineOpenSans.woff');
 }
 
+html {
+    overflow-y: auto
+}
 tbody {
     display:block;
     height:300px;

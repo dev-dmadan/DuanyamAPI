@@ -164,12 +164,20 @@ class DashboardController extends Controller
         return view('jumlahIbuAktifPerPeriode', [
             'title' => 'Jumlah Ibu Aktif per Periode',
             'filters' => [
+                // (Object)[
+                //     'text' => 'Periode (Bulan-Tahun)',
+                //     'value' => json_encode([
+                //         'type' => 'date',
+                //         'isPeriod' => true,
+                //         'format' => 'MMM-YYYY',
+                //         'placeholder' => 'Masukkan periode'
+                //     ])
+                // ]
                 (Object)[
-                    'text' => 'Periode (Bulan-Tahun)',
+                    'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
-                        'type' => 'date',
-                        'format' => 'MMM-YYYY',
-                        'placeholder' => 'Masukkan periode'
+                        'type' => 'range-date',
+                        'placeholder' => 'Masukkan tanggal'
                     ])
                 ]
             ]

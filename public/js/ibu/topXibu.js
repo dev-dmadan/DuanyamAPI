@@ -1,26 +1,88 @@
 document.addEventListener('DOMContentLoaded', function() {
     const myChart = Highcharts.chart('chart', {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
         title: {
-            text: 'Fruit Consumption'
+            text: null
         },
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            categories: [
+                'Maria Ozawa', 'Arina Hashimoto', 'Aoi Sora', 
+                'Mitsuki Nagisa', 'Emiri Suzuhara', 'Karima Astari', 
+                'Sera Indri Nokiva', 'Rafika Aqmarina', 'Riley Reid',
+                'Samantha Hayes'
+            ]
         },
         yAxis: {
+            min: 0,
             title: {
-                text: 'Fruit eaten'
+                text: 'Pendapatan'
+            },
+        },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: event => {
+                        console.log('%c on click series: ', 'color: blue', event);
+
+                        showLoading({isShow: true});
+
+                        // proses
+                        setTimeout(() => {
+                            showLoading({isShow: false});
+
+                            showDetail();
+                        }, 3000);
+                    }
+                }
+            },
+        },
+        tooltip: {
+            formatter: function() {
+                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
+                                `<span style="font-size: 12px">${this.series.name}: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
+                return newLabel;
             }
         },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -5
+                        },
+                        title: {
+                            text: null
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+            }]
+        },
+        credits: {
+            enabled: false
+        },
+        series: [
+            {
+                name: 'Average Pendapatan',
+                color: getColor('blue'),
+                data: [100500, 99000, 97000, 70000, 57000, 47000, 45000, 40000, 30000, 25000]
+            }
+        ]
     });
 });
 

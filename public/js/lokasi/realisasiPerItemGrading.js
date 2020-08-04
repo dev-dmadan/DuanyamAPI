@@ -1,26 +1,109 @@
 document.addEventListener('DOMContentLoaded', function() {
     const myChart = Highcharts.chart('chart', {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
         title: {
-            text: 'Fruit Consumption'
+            text: null
         },
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            categories: ['Bandung', 'Bogor', 'Jakarta']
         },
         yAxis: {
+            min: 0,
             title: {
-                text: 'Fruit eaten'
+                text: 'Realisasi'
+            },
+        },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: event => {
+                        console.log('%c on click series: ', 'color: blue', event);
+
+                        showLoading({isShow: true});
+
+                        // proses
+                        setTimeout(() => {
+                            showLoading({isShow: false});
+
+                            showDetail();
+                        }, 3000);
+                    }
+                }
+            },
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
             }
         },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
+        tooltip: {
+            formatter: function() {
+                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
+                                `<span style="font-size: 12px">${this.series.name}: <strong>${this.y}</strong></span>`;
+                return newLabel;
+            }
+        },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -5
+                        },
+                        title: {
+                            text: null
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+            }]
+        },
+        credits: {
+            enabled: false
+        },
+        series: [
+            {
+                name: 'Grade A+',
+                color: getColor('green'),
+                data: [null, 10, 2]
+            },
+            {
+                name: 'Grade A',
+                color: getColor('blue'),
+                data: [10, 10, 25]
+            },
+            {
+                name: 'Grade B',
+                color: getColor('orange'),
+                data: [4, 11, 7]
+            },
+            {
+                name: 'Grade C',
+                color: getColor('grey'),
+                data: [10, 23, 3]
+            },
+            {
+                name: 'Lainnya',
+                color: getColor('yellow'),
+                data: [4, null, 2]
+            }
+        ]
     });
 });
 
