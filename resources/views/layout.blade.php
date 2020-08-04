@@ -30,6 +30,15 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="control">
+                                <button class="button is-success is-small is-rounded" id="search-button" disabled>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
