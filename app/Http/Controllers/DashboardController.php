@@ -243,7 +243,7 @@ class DashboardController extends Controller
     public function totalBiayaProduksiPerSemuaPO()
     {
         return view('totalBiayaProduksiPerSemuaPO', [
-            'title' => 'Total Biaya Produksi Per PO',
+            'title' => 'Total Biaya Produksi Semua PO',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal PO Selesai',
@@ -259,7 +259,7 @@ class DashboardController extends Controller
     public function totalBiayaProduksiPerPO()
     {
         return view('totalBiayaProduksiPerPO', [
-            'title' => 'Biaya Produksi PO',
+            'title' => 'Biaya Produksi Per PO',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal PO Selesai',
@@ -365,7 +365,7 @@ class DashboardController extends Controller
     public function raportPerIbu()
     {
         return view('raportPerIbu', [
-            'title' => 'Average Pendapatan Per Lokasi',
+            'title' => 'Raport Per Ibu',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal Monitoring',

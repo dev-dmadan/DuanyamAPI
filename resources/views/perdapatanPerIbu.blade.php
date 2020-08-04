@@ -24,8 +24,33 @@
         <thead>
             <tr>
                 <th>Nama Ibu</th>
-                <th>Total Jasa Anyaman</th>
-                <th>Total Jasa Pengolahan</th>
+                <th class="has-text-right">Total Jasa Anyaman</th>
+                <th class="has-text-right">Total Jasa Pengolahan</th>
+            </tr>
+            <tr>
+                <td>Anne</td>
+                <td class="has-text-right">95000</td>
+                <td class="has-text-right">55000</td>
+            </tr>
+            <tr>
+                <td>Ima Woten</td>
+                <td class="has-text-right">100000</td>
+                <td class="has-text-right">60000</td>
+            </tr>
+            <tr>
+                <td>Mery Woten</td>
+                <td class="has-text-right">135000</td>
+                <td class="has-text-right">75000</td>
+            </tr>
+            <tr>
+                <td>Vero</td>
+                <td class="has-text-right">50000</td>
+                <td class="has-text-right">30000</td>
+            </tr>
+            <tr>
+                <td>Alex</td>
+                <td class="has-text-right">150000</td>
+                <td class="has-text-right">70000</td>
             </tr>
         </thead>
         <tbody>
@@ -34,5 +59,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="/js/production-order/perdapatanPerIbu.js"></script>
+    <script src="/js/ibu/perdapatanPerIbu.js"></script>
 @endsection

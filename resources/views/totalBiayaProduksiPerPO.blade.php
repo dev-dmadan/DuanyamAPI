@@ -26,10 +26,55 @@
                 <th>No PO</th>
                 <th>Lokasi Produksi</th>
                 <th>Tanggal Monitoring</th>
-                <th>Total Jasa Anyaman</th>
-                <th>Total Jasa Pengolahan</th>
-                <th>Total Jasa Kordinasi</th>
-                <th>Total</th>
+                <th class="has-text-right">Total Jasa Anyaman</th>
+                <th class="has-text-right">Total Jasa Pengolahan</th>
+                <th class="has-text-right">Total Jasa Kordinasi</th>
+                <th class="has-text-right">Total</th>
+            </tr>
+            <tr>
+                <td>P0-2020-001</td>
+                <td>Bubuatagamu</td>
+                <td>12/17/2018</td>
+                <td class="has-text-right">90000</td>
+                <td class="has-text-right">85000</td>
+                <td class="has-text-right">8750</td>
+                <td class="has-text-right">183750</td>
+            </tr>
+            <tr>
+                <td>P0-2020-002</td>
+                <td>Wulublolong</td>
+                <td>12/24/2018</td>
+                <td class="has-text-right">30000</td>
+                <td class="has-text-right">35000</td>
+                <td class="has-text-right">3250</td>
+                <td class="has-text-right">68250</td>
+            </tr>
+            <tr>
+                <td>P0-2020-003</td>
+                <td>Watohari</td>
+                <td>2/2/2018</td>
+                <td class="has-text-right">20000</td>
+                <td class="has-text-right">34000</td>
+                <td class="has-text-right">3250</td>
+                <td class="has-text-right">68250</td>
+            </tr>
+            <tr>
+                <td>P0-2020-004</td>
+                <td>Lamawai</td>
+                <td>1/13/2018</td>
+                <td class="has-text-right">50000</td>
+                <td class="has-text-right">45000</td>
+                <td class="has-text-right">1250</td>
+                <td class="has-text-right">8250</td>
+            </tr>
+            <tr>
+                <td>P0-2020-005</td>
+                <td>Lebao</td>
+                <td>7/6/2018</td>
+                <td class="has-text-right">90000</td>
+                <td class="has-text-right">12000</td>
+                <td class="has-text-right">8250</td>
+                <td class="has-text-right">6250</td>
             </tr>
         </thead>
         <tbody>
