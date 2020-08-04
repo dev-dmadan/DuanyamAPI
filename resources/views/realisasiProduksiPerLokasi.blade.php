@@ -9,6 +9,8 @@
                 <th class="has-text-right">Realisasi</th>
                 <th class="has-text-right">% Realisasi</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td>PO-2019-0115</td>
                 <td>Kalike</td>
@@ -86,8 +88,6 @@
                 <td class="has-text-right">8</td>
                 <td class="has-text-right">50%</td>
             </tr>
-        </thead>
-        <tbody>
         </tbody>
     </table>
 @endsection

@@ -30,7 +30,9 @@
                 <th class="has-text-right">Jumlah Ibu</th>
                 <th class="has-text-right">Average Pendapatan Per Lokasi</th>
             </tr>
-            <tr>
+        </thead>
+        <tbody>
+        <tr>
                 <td>Wulublolong</td>
                 <td class="has-text-right">380000</td>
                 <td class="has-text-right">220000</td>
@@ -54,8 +56,6 @@
                 <td class="has-text-right">7</td>
                 <td class="has-text-right">91429</td>
             </tr>
-        </thead>
-        <tbody>
         </tbody>
     </table>
 @endsection

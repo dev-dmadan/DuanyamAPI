@@ -31,7 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
         plotOptions: {
             column: {
-                stacking: 'normal'
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
             },
             series: {
                 cursor: 'pointer',

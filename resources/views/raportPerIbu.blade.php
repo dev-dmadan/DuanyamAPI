@@ -34,6 +34,8 @@
                 <th class="has-text-right">Total Jasa Pengolahan</th>
                 <th class="has-text-right">Total Pendapatan</th>
             </tr>   
+        </thead>
+        <tbody>
             <tr>
                 <td>Dese Mini</td>
                 <td class="has-text-right">4</td>
@@ -60,7 +62,7 @@
             </tr>
             <tr>
                 <td>Sobe S</td>
-                <td class="has-text-right">2/td>
+                <td class="has-text-right">2</td>
                 <td class="has-text-right">1</td>
                 <td class="has-text-right">1</td>
                 <td class="has-text-right">3</td>
@@ -70,8 +72,6 @@
                 <td class="has-text-right">225000</td>
                 <td class="has-text-right">475000</td>
             </tr>
-        </thead>
-        <tbody>
         </tbody>
     </table>
 @endsection
