@@ -23,12 +23,36 @@
     <table id="tableDetail" class="table is-striped is-hoverable is-fullwidth">
         <thead>
             <tr>
-                <th>Lokasi Produksi</th>
-                <th>Total Jasa Anyaman</th>
-                <th>Total Jasa Pengolahan</th>
-                <th>Total</th>
-                <th>Jumlah Ibu</th>
-                <th>Average Pendapatan Per Lokasi</th>
+                <th>Lokasi</th>
+                <th class="has-text-right">Total Jasa Anyaman</th>
+                <th class="has-text-right">Total Jasa Pengolahan</th>
+                <th class="has-text-right">Total</th>
+                <th class="has-text-right">Jumlah Ibu</th>
+                <th class="has-text-right">Average Pendapatan Per Lokasi</th>
+            </tr>
+            <tr>
+                <td>Wulublolong</td>
+                <td class="has-text-right">380000</td>
+                <td class="has-text-right">220000</td>
+                <td class="has-text-right">600000</td>
+                <td class="has-text-right">4</td>
+                <td class="has-text-right">150000</td>
+            </tr>
+            <tr>
+                <td>Bubuatagamu</td>
+                <td class="has-text-right">800000</td>
+                <td class="has-text-right">400000</td>
+                <td class="has-text-right">1200000</td>
+                <td class="has-text-right">3</td>
+                <td class="has-text-right">400000</td>
+            </tr>
+            <tr>
+                <td>Kalike</td>
+                <td class="has-text-right">340000</td>
+                <td class="has-text-right">300000</td>
+                <td class="has-text-right">640000</td>
+                <td class="has-text-right">7</td>
+                <td class="has-text-right">91429</td>
             </tr>
         </thead>
         <tbody>
@@ -37,5 +61,5 @@
 @endsection
 
 @section('custom-js')
-    <script src="/js/production-order/avaragePendapatanPerLokasi.js"></script>
+    <script src="/js/lokasi/avaragePendapatanPerLokasi.js"></script>
 @endsection

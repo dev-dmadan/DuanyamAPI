@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         series: [{
             name: '% Realisasi',
-            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1],
+            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+            cursor: 'pointer',
             events: {
                 click: event => {
                     showLoading({isShow: true})
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function onClickDisplayData() {
-    console.log('Display data dashboard realisasi produksi per lokasi per po');
+    console.log('Display data dashboard realisasi produksi per lokasi');
 
     showLoading(isShow = true);
 

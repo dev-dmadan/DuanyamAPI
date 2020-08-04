@@ -1,39 +1,54 @@
 document.addEventListener('DOMContentLoaded', function() {
-    Highcharts.chart('chart', {
+    const myChart = Highcharts.chart('chart', {
         chart: {
             type: 'column'
         },
-    
         title: {
             text: null
         },
-    
-        xAxis: {
-            categories: ['PO-2020-001', 'PO-2020-002', 'PO-2020-003', 'PO-2020-004', 'PO-2020-005']
+        subtitle: {
+            text: null
         },
-    
+        xAxis: {
+            categories: [
+            'Wulublolong',
+            'Bubuatagamu',
+            'Kalike',
+            'Kalike Aimatan',
+            'Balaweling II',
+            'Duntana',
+            'Rumah Anyam',
+            'Lebao',
+            'Lemanu',
+            'Watanhura',
+            'Lamawai',
+            'Lewotobi'
+            ],
+            crosshair: true
+        },
         yAxis: {
-            allowDecimals: false,
             min: 0,
             title: {
-                text: 'Total'
+            text: 'Pendapatan Ibu'
             }
         },
-    
         tooltip: {
-            formatter: function () {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    'Total: ' + this.point.stackTotal;
+            formatter: function() {
+                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
+                                `<span style="font-size: 12px">${this.series.name}: <strong>${Highcharts.numberFormat(this.y, 2, ',', '.')} %</strong></span>`;
+                return newLabel;
             }
         },
-    
         plotOptions: {
             column: {
-                stacking: 'normal'
-            },
-            series: {
-                cursor: 'pointer',
+            pointPadding: 0.2,
+            borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Lokasi',
+            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+            cursor: 'pointer',
                 events: {
                     click: event => {
                         showLoading({isShow: true})
@@ -45,24 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, 1500);
                     }
                 }
-            }
-        },
-    
-        series: [{
-            name: 'Total Jasa Anyam',
-            data: [120000, 125000, 170000, 156000, 500000]
-        }, {
-            name: 'Total Jasa Pengolahan',
-            data: [132000, 770000, 170000, 919000, 250000]
-        }, {
-            name: 'Total Jasa Kordinasi',
-            data: [136000, 101000, 930000, 123950, 900000]
         }]
     });
 });
 
 function onClickDisplayData() {
-    console.log('Display data dashboard total biaya produksi per po');
+    console.log('Display data dashboard Pendapatan Per Lokasi');
 
     showLoading(isShow = true);
 

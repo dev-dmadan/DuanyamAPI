@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     Highcharts.chart('chart', {
+
         chart: {
             type: 'column'
         },
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     
         xAxis: {
-            categories: ['PO-2020-001', 'PO-2020-002', 'PO-2020-003', 'PO-2020-004', 'PO-2020-005']
+            categories: ['Dese Mini', 'Dese Tanduk', 'Sobe S']
         },
     
         yAxis: {
@@ -47,22 +48,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         },
-    
-        series: [{
-            name: 'Total Jasa Anyam',
-            data: [120000, 125000, 170000, 156000, 500000]
-        }, {
-            name: 'Total Jasa Pengolahan',
-            data: [132000, 770000, 170000, 919000, 250000]
-        }, {
-            name: 'Total Jasa Kordinasi',
-            data: [136000, 101000, 930000, 123950, 900000]
-        }]
+        series: [
+            {
+                name: 'Jumlah Realisasi',
+                data: [8, 9, 8]
+            },
+            {
+                name: 'Jumlah Grade A+',
+                data: [2, 5, 7]
+            }, {
+                name: 'Jumlah Grade A',
+                data: [3, 5, 6]
+            }, {
+                name: 'Jumlah Grade B',
+                data: [4, 5, 2]
+            },
+            {
+                name: 'Jumlah Grade C',
+                data: [2, 2, 2]
+            },
+            {
+                name: 'Jumlah Grade Lainnya',
+                data: [1, 8, 9]
+            }
+        ]
     });
 });
 
 function onClickDisplayData() {
-    console.log('Display data dashboard total biaya produksi per po');
+    console.log('Display data dashboard raport per ibu');
 
     showLoading(isShow = true);
 

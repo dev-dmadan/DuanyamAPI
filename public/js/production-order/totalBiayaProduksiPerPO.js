@@ -1,25 +1,62 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const myChart = Highcharts.chart('chart', {
+    Highcharts.chart('chart', {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
+    
         title: {
-            text: 'Biaya Produksi PO-101-2020'
+            text: null
         },
+    
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            categories: ['Bubuatagamu', 'Kalike', 'Lamawai', 'Duntana', 'Watanhura']
         },
+    
         yAxis: {
+            allowDecimals: false,
+            min: 0,
             title: {
-                text: 'Fruit eaten'
+                text: 'Total'
             }
         },
+    
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+            }
+        },
+    
+        plotOptions: {
+            column: {
+                stacking: 'normal'
+            },
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: event => {
+                        showLoading({isShow: true})
+                        //proses
+                        setTimeout(() => {
+                            showLoading({isShow: false})
+
+                            showDetail();
+                        }, 1500);
+                    }
+                }
+            }
+        },
+    
         series: [{
-            name: 'Total Anyaman',
-            data: [1, 0, 4]
+            name: 'Total Jasa Anyam',
+            data: [120000, 125000, 170000, 156000, 500000]
         }, {
-            name: 'Total Pengolahan',
-            data: [5, 7, 3]
+            name: 'Total Jasa Pengolahan',
+            data: [132000, 770000, 170000, 919000, 250000]
+        }, {
+            name: 'Total Jasa Kordinasi',
+            data: [136000, 101000, 930000, 123950, 900000]
         }]
     });
 });

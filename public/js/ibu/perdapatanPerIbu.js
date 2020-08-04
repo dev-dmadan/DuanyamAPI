@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     Highcharts.chart('chart', {
+
         chart: {
             type: 'column'
         },
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     
         xAxis: {
-            categories: ['PO-2020-001', 'PO-2020-002', 'PO-2020-003', 'PO-2020-004', 'PO-2020-005']
+            categories: ['Anne', 'Ima Woten', 'Mery Wotan', 'Vero', 'Alex']
         },
     
         yAxis: {
@@ -54,15 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, {
             name: 'Total Jasa Pengolahan',
             data: [132000, 770000, 170000, 919000, 250000]
-        }, {
-            name: 'Total Jasa Kordinasi',
-            data: [136000, 101000, 930000, 123950, 900000]
         }]
     });
 });
 
 function onClickDisplayData() {
-    console.log('Display data dashboard total biaya produksi per po');
+    console.log('Display data dashboard Pendapatan Per Ibu');
 
     showLoading(isShow = true);
 
