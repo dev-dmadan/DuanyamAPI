@@ -57,6 +57,8 @@
                 </div>
  
             </div>
+            
+            @yield('custom-filter')
 
             <div id="chart" style="width:100%; height:450px;"></div>
             <div id="detail-chart" class="is-hidden" style="height:450px; overflow-y: auto;"> 
