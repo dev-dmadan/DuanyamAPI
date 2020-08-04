@@ -13,20 +13,18 @@ window.onload = () => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    /** Dropdown */
-        if(DROPDOWN.length > 0) {
-            DROPDOWN.forEach(function(element) {
-                element.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    element.classList.toggle('is-active');
-                });
+    if(DROPDOWN.length > 0) {
+        DROPDOWN.forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.stopPropagation();
+                element.classList.toggle('is-active');
             });
-        }
-        
-        document.addEventListener('click', function (event) {
-            closeDropdowns();
         });
-    /** End Dropdown */
+    }
+    
+    document.addEventListener('click', function (event) {
+        closeDropdowns();
+    });
     
     SELECT_FILTER.addEventListener('change', function() {
         handlingFilter({scope: this});
@@ -39,7 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     DISPLAY_DATA.addEventListener('click', function (event) {
-        onClickDisplayData();
+        if(IS_DISPLAY_DATA) {
+            onClickDisplayData();
+        } else {
+            onClickDisplayChart();
+        }
     });
 
     SEARCH_BUTTON.addEventListener('click', function() {
