@@ -46,25 +46,35 @@ document.addEventListener('DOMContentLoaded', function () {
         const value = document.querySelector('#field-pencarian') != null ? document.querySelector(`#field-pencarian`).value : null;
         const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector('#field-pencarian-custom').value : null;
         const valueOperator = document.querySelector('#field-pencarian-operator') != null ? document.querySelector('#field-pencarian-operator').value : null;
-        
         const valueStart = document.querySelector('#field-pencarian-start') != null ? document.querySelector(`#field-pencarian-start`).value : null;
         const valueEnd = document.querySelector('#field-pencarian-end') != null ? document.querySelector(`#field-pencarian-end`).value : null;
-        
-        try {
-            const isRangeDate = valueStart && valueEnd;
+        const isRangeDate = valueStart != undefined && valueEnd != undefined ? true : false;
+
+        try {    
+            console.log({isRangeDate, valueStart, valueEnd});
             if(isRangeDate) {
                 if(valueStart.trim() == '' || valueEnd.trim() == '') {
                     throw 'Filter tidak boleh kosong';
                 }
-            }
 
-            if(value && valueCustom) {
-                if(value.trim() == '' || valueCustom.trim() == '') {
+                if(valueCustom && valueCustom.trim() == '') {
                     throw 'Filter tidak boleh kosong';
                 }
+            } else {
+                if(value && valueCustom) {
+                    if(value.trim() == '' || valueCustom.trim() == '') {
+                        throw 'Filter tidak boleh kosong';
+                    }
+                } else if(value && !valueCustom) {
+                    if(value.trim() == '') {
+                        throw 'Filter tidak boleh kosong';
+                    }
+                } else if(!value && valueCustom) {
+                    if(valueCustom.trim() == '') {
+                        throw 'Filter tidak boleh kosong';
+                    }
+                }
             }
-
-            
 
             onClickSearch({
                 filter: isRangeDate ? {valueStart, valueEnd} : value, 
@@ -127,6 +137,7 @@ function handlingFilter({scope, isCustom = false}) {
     let fieldPencarianId = isCustom ? 'field-pencarian-custom' : 'field-pencarian';
     let removeFilter = isCustom ? 'remove-filter-custom' : 'remove-filter';
     let jsonFilter = {};
+    let isRangeDate = false;
     try {
         jsonFilter = JSON.parse(scope.value);
         let searchFilter = '';
@@ -147,10 +158,6 @@ function handlingFilter({scope, isCustom = false}) {
                 div.setAttribute("class", "field has-addons pr-3");
                 div.innerHTML = searchFilter;
                 parentFilter.after(div);
-
-                document.querySelector(`#${fieldPencarianId}`).addEventListener('change', function() {
-                    SEARCH_BUTTON.disabled = this.value.trim() != '' ? false : true;
-                });
                 
                 break;
 
@@ -195,33 +202,19 @@ function handlingFilter({scope, isCustom = false}) {
                             maxYear: MAX_YEAR,
                             months: true,
                             years: true,
+                        },
+                        onSelect: function(date1, date2) {
+                            const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector(`#field-pencarian-custom`).value : null;
+                            SEARCH_BUTTON.disabled = valueCustom != undefined && valueCustom.trim() != '' ? false : true;
                         }
                     });
                 } else {
                     new Litepicker({ 
                         element: document.getElementById('field-pencarian'),
                         format: jsonFilter.format ? jsonFilter.format : 'YYYY-MM-DD',
-                    });
-                }
-
-                if(!isCustom) {
-                    document.querySelector(`#${searchButtonId}`).addEventListener('click', function() {
-                        const value = document.querySelector(`#${fieldPencarianId}`).value;
-                        const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector('#field-pencarian-custom').value : null;
-                        const valueOperator = document.querySelector('#field-pencarian-operator') != null ? document.querySelector('#field-pencarian-operator').value : null;
-                        
-                        try {
-                            if(value.trim() == '' || value == undefined) {
-                                throw 'Filter utama tidak boleh kosong';
-                            }
-
-                            onClickSearch({
-                                filter: value, 
-                                filterCustom: valueCustom,
-                                filterOperator: valueOperator
-                            });
-                        } catch (error) {
-                            alert(error);
+                        onSelect: function(date1, date2) {
+                            const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector(`#field-pencarian-custom`).value : null;
+                            SEARCH_BUTTON.disabled = valueCustom != undefined && valueCustom.trim() != '' ? false : true;
                         }
                     });
                 }
@@ -229,6 +222,7 @@ function handlingFilter({scope, isCustom = false}) {
                 break;
 
             case 'range-date':
+                isRangeDate = true;
                 searchFilter =  '<div class="control">' +
                                     `<input id="${fieldPencarianId}-start" class="input is-small is-rounded" type="text" placeholder="${jsonFilter.placeholder} mulai">` +
                                 '</div>' +
@@ -253,7 +247,8 @@ function handlingFilter({scope, isCustom = false}) {
                     numberOfMonths: 2,
                     numberOfColumns: 2,
                     onSelect: function(date1, date2) {
-                        SEARCH_BUTTON.disabled = false;
+                        const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector(`#field-pencarian-custom`).value : null;
+                        SEARCH_BUTTON.disabled = valueCustom != undefined && valueCustom.trim() != '' ? false : true;
                     }
                 });
                 
@@ -263,21 +258,41 @@ function handlingFilter({scope, isCustom = false}) {
                 break;
         }
 
+        if(!isRangeDate) {
+            document.querySelector(`#${fieldPencarianId}`).addEventListener('change', function() {
+                const anotherValue = isCustom ? 
+                    document.querySelector('#field-pencarian') != null ? document.querySelector(`#field-pencarian`).value : null
+                    : document.querySelector('#field-pencarian-custom') != null ? document.querySelector(`#field-pencarian-custom`).value : null;
+                const valueStart = document.querySelector('#field-pencarian-start') != null ? document.querySelector(`#field-pencarian-start`).value : null;
+                const valueEnd = document.querySelector('#field-pencarian-end') != null ? document.querySelector(`#field-pencarian-end`).value : null;
+                const _isRangeDate = valueStart != undefined && valueEnd != undefined ? true : false;
+
+                const isAnotherFilterEmpty = isCustom ? (
+                    _isRangeDate ? (
+                        (valueStart.trim() != '' && valueEnd.trim() != '') ? false : true
+                    ) : (anotherValue != undefined && anotherValue.trim() == '' ? true : false)
+                ) : (anotherValue != undefined && anotherValue.trim() == '' ? true : false);
+
+                SEARCH_BUTTON.disabled = this.value.trim() == '' || isAnotherFilterEmpty ? true : false;
+            });
+        }
+
         document.querySelector(`#${removeFilter}`).addEventListener('click', function() {
             const value = document.querySelector('#field-pencarian') != null ? document.querySelector(`#field-pencarian`).value : null;
+            const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector('#field-pencarian-custom').value : null;
             const valueStart = document.querySelector('#field-pencarian-start') != null ? document.querySelector(`#field-pencarian-start`).value : null;
             const valueEnd = document.querySelector('#field-pencarian-end') != null ? document.querySelector(`#field-pencarian-end`).value : null;
-            const valueCustom = document.querySelector('#field-pencarian-custom') != null ? document.querySelector('#field-pencarian-custom').value : null;
+            const _isRangeDate = valueStart != undefined && valueEnd != undefined ? true : false;
 
             rootFilter.children[isCustom ? 1 : 2].remove();
             if(isCustom) {
                 SELECT_FILTER_CUSTOM.options[0].selected = true;
-                if(!value || (!valueStart || !valueEnd)) {
-                    SEARCH_BUTTON.disabled = true;
-                }
+                SEARCH_BUTTON.disabled = _isRangeDate ? (
+                    (valueStart.trim() != '' && valueEnd.trim() != '') ? false : true
+                ) : value != undefined && value.trim() != '' ? false : true;
             } else {
                 SELECT_FILTER.options[0].selected = true;
-                SEARCH_BUTTON.disabled = valueCustom ? false : true;
+                SEARCH_BUTTON.disabled = valueCustom != undefined && valueCustom.trim() != '' ? false : true;
             }
         });
     } catch (error) {
@@ -302,34 +317,34 @@ function getColor(colorName = '') {
             break;
 
         case 'orange':
-            color = '#f08a5d';
+            color = '#FF8067 ';
             break;
 
         case 'yellow':
-            color = '#f7f48b';
+            color = '#fff591  ';
             break;
 
         case 'red':
-            color = '#f47c7c';
+            color = '#EA4646  ';
             break;
 
         case 'red-soft':
-            color = '#eb6383';
+            color = '#E94D51  ';
             break;
         
         case 'blue':
-            color = '#70a1d7';
+            color = '#4CACDF  ';
             break;
 
         case 'blue-soft':
-            color = '#a6e3e9';
+            color = '#a6dcef ';
 
         case 'green':
-            color = '#17b978';
+            color = '#a7e9af ';
             break;
 
         case 'green-soft':
-            color = '#a1de93';
+            color = '#cee397 ';
             break;
         
         default:
