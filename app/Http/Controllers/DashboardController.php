@@ -187,7 +187,7 @@ class DashboardController extends Controller
     public function realisasiProduksiPerLokasi()
     {
         return view('realisasiProduksiPerLokasi', [
-            'title' => 'Realisasi Produksi Per Lokasi',
+            'title' => 'Realisasi Produksi per Lokasi',
             'filters' => [
                 (Object)[
                     'text' => 'Nama proyek',
@@ -219,7 +219,7 @@ class DashboardController extends Controller
     public function realisasiProduksiPerLokasiPerPO()
     {
         return view('realisasiProduksiPerLokasiPerPO', [
-            'title' => 'Realisasi Produksi Per Lokasi Per PO',
+            'title' => 'Realisasi Produksi Lokasi per PO',
             'filters' => [
                 (Object)[
                     'text' => 'Nama proyek',
@@ -267,7 +267,7 @@ class DashboardController extends Controller
     public function totalBiayaProduksiPerPO()
     {
         return view('totalBiayaProduksiPerPO', [
-            'title' => 'Biaya Produksi Per PO',
+            'title' => 'Biaya Produksi per PO',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal PO Selesai',
@@ -293,7 +293,7 @@ class DashboardController extends Controller
     public function perdapatanPerIbu()
     {
         return view('perdapatanPerIbu', [
-            'title' => 'Pendapatan Per Ibu',
+            'title' => 'Pendapatan per Ibu',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal Monitoring',
@@ -333,7 +333,7 @@ class DashboardController extends Controller
     public function avaragePendapatanPerLokasi()
     {
         return view('avaragePendapatanPerLokasi', [
-            'title' => 'Average Pendapatan Per Lokasi',
+            'title' => 'Average Pendapatan per Lokasi',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal Monitoring',
@@ -373,7 +373,7 @@ class DashboardController extends Controller
     public function raportPerIbu()
     {
         return view('raportPerIbu', [
-            'title' => 'Raport Per Ibu',
+            'title' => 'Raport per Ibu',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal Monitoring',

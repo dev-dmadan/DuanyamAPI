@@ -35,14 +35,28 @@ document.addEventListener('DOMContentLoaded', function() {
         tooltip: {
             formatter: function() {
                 let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
-                                `<span style="font-size: 12px">${this.series.name}: <strong>${Highcharts.numberFormat(this.y, 2, ',', '.')} %</strong></span>`;
+                                `<span style="font-size: 12px">Pendapatan Ibu: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
                 return newLabel;
             }
         },
         plotOptions: {
             column: {
-            pointPadding: 0.2,
-            borderWidth: 0
+                pointPadding: 0.2,
+                borderWidth: 0,
+                series: {
+                    cursor: 'pointer',
+                    events: {
+                        click: event => {
+                            showLoading({isShow: true})
+                            //proses
+                            setTimeout(() => {
+                                showLoading({isShow: false})
+    
+                                showDetail();
+                            }, 1500);
+                        }
+                    }
+                }
             }
         },
         series: [{

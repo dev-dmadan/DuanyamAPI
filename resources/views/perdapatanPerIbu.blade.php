@@ -27,6 +27,8 @@
                 <th class="has-text-right">Total Jasa Anyaman</th>
                 <th class="has-text-right">Total Jasa Pengolahan</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td>Anne</td>
                 <td class="has-text-right">95000</td>
@@ -52,8 +54,6 @@
                 <td class="has-text-right">150000</td>
                 <td class="has-text-right">70000</td>
             </tr>
-        </thead>
-        <tbody>
         </tbody>
     </table>
 @endsection

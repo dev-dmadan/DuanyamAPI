@@ -11,6 +11,8 @@
                 <th class="has-text-right">Total Jasa Kordinasi</th>
                 <th class="has-text-right">Total</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td>P0-2020-001</td>
                 <td>Bubuatagamu</td>
@@ -56,8 +58,6 @@
                 <td class="has-text-right">8250</td>
                 <td class="has-text-right">6250</td>
             </tr>
-        </thead>
-        <tbody>
         </tbody>
     </table>
 @endsection

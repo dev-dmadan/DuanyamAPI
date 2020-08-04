@@ -21,16 +21,19 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     
         tooltip: {
-            formatter: function () {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    'Total: ' + this.point.stackTotal;
+            formatter: function() {
+                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
+                                `<span style="font-size: 12px">${this.series.name}: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
+                return newLabel;
             }
         },
     
         plotOptions: {
             column: {
-                stacking: 'normal'
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
             },
             series: {
                 cursor: 'pointer',
