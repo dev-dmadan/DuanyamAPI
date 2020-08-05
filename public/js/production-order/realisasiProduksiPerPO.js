@@ -94,7 +94,7 @@ function onClickDisplayData() {
     }, 3000);
 }
 
-function onClickSearch(value) {
+function onClickSearch({filter = null, filterCustom = null, filterOperator = null}) {
     console.log('%c onClickSearch: ', 'color: green', value);
 }
 
