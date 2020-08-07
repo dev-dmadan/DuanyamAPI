@@ -1,5 +1,3 @@
-let CURRENT_PAGE = 1;
-let TOTAL_PAGE = 0;
 document.addEventListener('DOMContentLoaded', function() {
     showLoading({isShow: true});
     init()
@@ -14,7 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function init() {
     try {
-        const req = await getChartData({MainFilter: null, CustomFilter: null});
+        const req = await getChartData({
+            MainFilter: null, 
+            CustomFilter: null
+        });
         if(!req.Success) {
             throw req.Message;
         }
@@ -29,7 +30,6 @@ async function init() {
 }
 
 async function getChartData({MainFilter, CustomFilter}) {
-    let result = {};
     try {
         const secretKey = getSecretKey();
         const headers = new Headers();
@@ -46,18 +46,35 @@ async function getChartData({MainFilter, CustomFilter}) {
             throw new Error('Something wrong error..');
         }
 
-        const data = await req.json();
-        result = data;
-        console.log(data);
+        return await req.json();
     } catch (error) {
         throw error;
     }
-
-    return result;
 }
 
-async function getDetailData({MainFilter, CustomFilter, Page = 0}) {
+async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = false}) {
+    try {
+        const secretKey = getSecretKey();
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        const req = await fetch(`${APP_URL}/dashboard/api/detail-realisasi-produksi-per-po?SecretKey=${secretKey}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                MainFilter: MainFilter ?? null,
+                CustomFilter: CustomFilter ?? null,
+                Page: Page,
+                isExport: isExport
+            })
+        });
+        if(!req.ok) {
+            throw new Error('Something wrong error..');
+        }
 
+        return await req.json();
+    } catch (error) {
+        throw error;
+    }
 }
 
 function renderChart({categories = [], series = []}) {
@@ -65,7 +82,7 @@ function renderChart({categories = [], series = []}) {
         item.color = COLORS.GREEN;
         return item;
     }) : [];
-    const chart = Highcharts.chart('chart', {
+    Highcharts.chart('chart', {
         chart: {
             type: 'column'
         },
@@ -84,17 +101,32 @@ function renderChart({categories = [], series = []}) {
             series: {
                 cursor: 'pointer',
                 events: {
-                    click: event => {
-                        console.log('%c on click series: ', 'color: blue', event);
-
+                    click: async (event) => {
                         showLoading({isShow: true});
+                        try {
+                            const filters = CURRENT_FILTER;;
+                            const data = await getDetailData({
+                                MainFilter: filters.MainFilter,
+                                CustomFilter: filters.CustomFilter,
+                                Page: 1
+                            });
+                            if(!data.Success) {
+                                throw data.Message;
+                            }
 
-                        // proses
-                        setTimeout(() => {
-                            showLoading({isShow: false});
-
+                            const newData = data.Data.filter(item => item.NoPO == event.point.category);
+                            renderDetail({
+                                data: newData,
+                                clearTable: true
+                            });
                             showDetail();
-                        }, 3000);
+                            CURRENT_PAGE = 1;
+                        } catch (error) {
+                            alert(error);
+                            console.error(error);
+                        } finally {
+                            showLoading({isShow: false});
+                        }
                     }
                 }
             }
@@ -141,17 +173,65 @@ function renderChart({categories = [], series = []}) {
 }
 
 function renderDetail({data = [], clearTable = false}) {
+    try {
+        if(clearTable) {
+            document.querySelector('#tableDetail').replaceChild(document.createElement('tbody'), document.querySelector('#tableDetail tbody'));
+        }
 
+        const tbody = document.querySelector('#tableDetail tbody');
+        data.forEach(item => {
+            let rows =  `<td><a href="${CREATIO_URL+EDIT_PAGE_URL.PRODUCTION_ORDER+item.ProductionOrderId}" target="_blank">${item.NoPO}</a></td>` +
+                        `<td>${item.NamaProyek}</td>` +
+                        `<td class="has-text-right">${item.JumlahProduk}</td>` +
+                        `<td class="has-text-right">${item.Realisasi}</td>` +
+                        `<td class="has-text-right">${item.RealisasiPersen} %</td>`;
+
+            let tr = document.createElement('tr');
+            tr.innerHTML = rows;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function onClickSearch({MainFilter, CustomFilter, isChart}) {
-    console.log('%c onClickSearch: ', 'color: green', {MainFilter, CustomFilter, isChart});
-
     showLoading({isShow: true});
     try {
-        
-        
-    } catch (error) {
+        let data;
+        if(isChart) {
+            data = await getChartData({
+                MainFilter: MainFilter,
+                CustomFilter: CustomFilter
+            });
+            if(!data.Success) {
+                throw data.Message;
+            }
+
+            renderChart({
+                categories: data.Category,
+                series: data.Series
+            });
+            showDashboard();
+        } else {
+            data = await getDetailData({
+                MainFilter: MainFilter,
+                CustomFilter: CustomFilter,
+                Page: 1
+            });
+            if(!data.Success) {
+                throw data.Message;
+            }
+
+            renderDetail({
+                data: data.Data,
+                clearTable: true
+            });
+            showDetail();
+        }
+
+        CURRENT_PAGE = 1;
+    } catch (error) { 
         throw error;
     } finally {
         showLoading({isShow: false});
@@ -159,14 +239,40 @@ async function onClickSearch({MainFilter, CustomFilter, isChart}) {
 }
 
 async function onClickShowMore() {
-    console.log('%c onClickShowMore: ', 'color: green');
+    showLoading({isShow: true});
+    try {
+        CURRENT_PAGE++;
+        const filter = CURRENT_FILTER;
+        const data = await getDetailData({
+            MainFilter: filter.MainFilter,
+            CustomFilter: filter.CustomFilter,
+            Page: CURRENT_PAGE
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        renderDetail({
+            data: data.Data,
+            clearTable: false
+        })
+    } catch (error) {
+        CURRENT_PAGE--;
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
 }
 
 async function onClickDisplayData() {
     showLoading({isShow: true});
     try {
         const filters = IS_SEARCH_CLICK ? getFilter() : CURRENT_FILTER;
-        const data = await getDetailData({MainFilter: filters.MainFilter, CustomFilter: filters.CustomFilter, Page = 1});
+        const data = await getDetailData({
+            MainFilter: filters.MainFilter, 
+            CustomFilter: filters.CustomFilter, 
+            Page: 1
+        });
         if(!data.Success) {
             throw data.Message;
         }
@@ -175,12 +281,14 @@ async function onClickDisplayData() {
         TOTAL_PAGE = data.TotalPage;
 
         renderDetail({
-            data: data.Category,
+            data: data.Data,
             clearTable: true
         });
         showDetail();
     } catch (error) {
         throw error;
+    } finally {
+        showLoading({isShow: false});
     }
 }
 
@@ -188,7 +296,10 @@ async function onClickDisplayChart() {
     showLoading({isShow: true});
     try {
         const filters = IS_SEARCH_CLICK ? getFilter() : CURRENT_FILTER;
-        const data = await getChartData({MainFilter: filters.MainFilter, CustomFilter: filters.CustomFilter});
+        const data = await getChartData({
+            MainFilter: filters.MainFilter, 
+            CustomFilter: filters.CustomFilter
+        });
         if(!data.Success) {
             throw data.Message;
         }
@@ -206,5 +317,13 @@ async function onClickDisplayChart() {
 }
 
 async function onClickExportData() {
-    
+    showLoading({isShow: true});
+    try {
+        const filter = CURRENT_FILTER;
+
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
 }

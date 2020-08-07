@@ -3,6 +3,7 @@ const SELECT_FILTER = document.querySelector('#select-filter');
 const SELECT_FILTER_CUSTOM = document.querySelector('#select-filter-custom');
 const DISPLAY_DATA = document.querySelector('#display-data');
 const EXPORT_DATA = document.querySelector('#export-data');
+const SHOW_MORE = document.querySelector('#show-more');
 const SEARCH_BUTTON = document.querySelector('#search-button');
 const OPERATOR_TYPE = {
     EQUAL: {
@@ -47,12 +48,18 @@ const COLORS = {
     GREEN: '#a7e9af',
     GREEN_SOFT: '#cee397'
 };
-let IS_DISPLAY_DATA = true;
-let IS_SEARCH_CLICK = false;
 const CURRENT_FILTER = {
     MainFilter: null,
     CustomFilter: null
 };
+const EDIT_PAGE_URL = {
+    PRODUCTION_ORDER: '/0/Nui/ViewModule.aspx#CardModuleV2/UsrProductionOrder1Page/edit/'
+};
+
+let IS_DISPLAY_DATA = true;
+let IS_SEARCH_CLICK = false;
+let CURRENT_PAGE = 1;
+let TOTAL_PAGE = 0;
 
 showLoading({isShow: true});
 window.onload = () => {
@@ -94,6 +101,18 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 alert(error);
             });
+        }
+    });
+
+    SHOW_MORE.addEventListener('click', function(event) {
+        onClickShowMore().catch(error => {
+            alert(error);
+        });
+
+        if(CURRENT_PAGE < TOTAL_PAGE) {
+            SHOW_MORE.parentElement.classList.remove('is-hidden');
+        } else {
+            SHOW_MORE.parentElement.classList.toggle('is-hidden');
         }
     });
 
@@ -163,6 +182,12 @@ function showDetail() {
     chart.classList.toggle('is-hidden');
     detailChart.classList.remove('is-hidden');
     EXPORT_DATA.parentElement.classList.remove('is-hidden');
+
+    if(CURRENT_PAGE < TOTAL_PAGE) {
+        SHOW_MORE.parentElement.classList.remove('is-hidden');
+    } else {
+        SHOW_MORE.parentElement.classList.toggle('is-hidden');
+    }
 }
 
 function handlingFilter({scope, isCustom = false}) {

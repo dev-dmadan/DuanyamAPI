@@ -36,4 +36,19 @@ class DashboardAPIController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function detailRealisasiProduksiPerPO(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'DetailRealisasiProduksiPerPO'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null,
+            'Page' => $request->has('Page') ? $request->input('Page') : 1,
+            'isExport' => $request->has('isExport') ? $request->input('isExport') : false
+        ]);
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
 }

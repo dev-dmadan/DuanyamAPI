@@ -79,7 +79,7 @@
                 
                 @yield('detail-chart')
 
-                <div class="has-text-centered is-hidden">
+                <div class="has-text-centered">
                     <a href="javascript:void(0);" id="show-more">
                         <span class="icon"><i class="fas fa-angle-double-down"></i></span> 
                         <span>Show more</span>
@@ -95,6 +95,7 @@
             const MIN_YEAR = @json(isset($minYear) ? $minYear : 2010, JSON_PRETTY_PRINT);
             const MAX_YEAR = @json(isset($maxYear) ? $maxYear : null, JSON_PRETTY_PRINT);
             const APP_URL = @json(env('APP_URL'), JSON_PRETTY_PRINT);
+            const CREATIO_URL = @json(env('CREATIO_URL'), JSON_PRETTY_PRINT);
         </script>
         <script src="/js/app.js"></script>
         
