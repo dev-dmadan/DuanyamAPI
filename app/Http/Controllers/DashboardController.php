@@ -23,6 +23,10 @@ class DashboardController extends Controller
                     'text' => 'No. PO',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan No PO'
                         // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
@@ -31,6 +35,10 @@ class DashboardController extends Controller
                     'text' => 'Nama proyek',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrNamaProyek'
+                        ],
                         'placeholder' => 'Masukkan nama proyek'
                     ])
                 ],

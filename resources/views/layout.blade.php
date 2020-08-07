@@ -23,7 +23,7 @@
                             <div class="field pr-3">
                                 <div class="select is-small is-rounded">
                                     <select id="select-filter">
-                                        <option selected disabled>Pilih filter</option>
+                                        <option value="" selected disabled>Pilih filter</option>
                                         @foreach ($filters as $filter)
                                             <option value="{{ $filter->value }}">{{ $filter->text}}</option>
                                         @endforeach
@@ -61,6 +61,11 @@
                                     Display data
                                 </a>
                             </div>
+                            <div class="dropdown-content is-hidden">
+                                <a id="export-data" href="javascript:void(0);" class="dropdown-item">
+                                    Export Data
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,7 +80,7 @@
                 @yield('detail-chart')
 
                 <div class="has-text-centered is-hidden">
-                    <a href="javascript:void(0);">
+                    <a href="javascript:void(0);" id="show-more">
                         <span class="icon"><i class="fas fa-angle-double-down"></i></span> 
                         <span>Show more</span>
                     </a>
@@ -89,6 +94,7 @@
         <script>
             const MIN_YEAR = @json(isset($minYear) ? $minYear : 2010, JSON_PRETTY_PRINT);
             const MAX_YEAR = @json(isset($maxYear) ? $maxYear : null, JSON_PRETTY_PRINT);
+            const APP_URL = @json(env('APP_URL'), JSON_PRETTY_PRINT);
         </script>
         <script src="/js/app.js"></script>
         
