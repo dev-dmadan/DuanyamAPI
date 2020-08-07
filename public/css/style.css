@@ -63,3 +63,44 @@ th {
 .is-loading {
     position: relative;
 }
+
+/* style new loading start */
+.Preloader {
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .Preloader-squareContainer {
+    width: 500px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .Preloader-square {
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    margin-right: 2px;
+  }
+  .Preloader-square:last-child {
+    margin-right: 0;
+  }
+  .Preloader-message {
+    font-family: Arial;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+  }
+/* style new loading end */
