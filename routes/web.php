@@ -85,3 +85,9 @@ $router->group(['prefix' => 'dashboard', 'middleware' => 'auth_secret_key'], fun
 
     $router->get('lookup/production-order/page/{page}',  ['uses' => 'ProductionOrderController@showAllProductionOrder']);
 });
+
+// dashboard api
+$router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'], function () use ($router) {
+    $router->post('realisasi-produksi-per-po',  ['uses' => 'DashboardAPIController@realisasiProduksiPerPO']);
+    $router->post('detail-realisasi-produksi-per-po',  ['uses' => 'DashboardAPIController@detailRealisasiProduksiPerPO']);
+});

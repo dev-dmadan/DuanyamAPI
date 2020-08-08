@@ -1,5 +1,88 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const myChart = Highcharts.chart('chart', {
+    showLoading({isShow: true});
+    init()
+    .catch(error => {
+        alert(`Something wrong happen: ${error}`);
+        console.error(error);
+    })
+    .finally(() => {
+        showLoading({isShow: false});
+    })
+});
+
+async function init() {
+    try {
+        const req = await getChartData({
+            MainFilter: null, 
+            CustomFilter: null
+        });
+        if(!req.Success) {
+            throw req.Message;
+        }
+
+        renderChart({
+            categories: req.Category,
+            series: req.Series
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getChartData({MainFilter, CustomFilter}) {
+    try {
+        const secretKey = getSecretKey();
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        const req = await fetch(`${APP_URL}/dashboard/api/realisasi-produksi-per-po?SecretKey=${secretKey}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                MainFilter: MainFilter ?? null,
+                CustomFilter: CustomFilter ?? null
+            })
+        });
+        if(!req.ok) {
+            throw new Error('Something wrong error..');
+        }
+
+        return await req.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = false}) {
+    try {
+        const secretKey = getSecretKey();
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        const req = await fetch(`${APP_URL}/dashboard/api/detail-realisasi-produksi-per-po?SecretKey=${secretKey}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                MainFilter: MainFilter ?? null,
+                CustomFilter: CustomFilter ?? null,
+                Page: Page,
+                isExport: isExport
+            })
+        });
+        if(!req.ok) {
+            throw new Error('Something wrong error..');
+        }
+
+        return await req.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
+function renderChart({categories = [], series = []}) {
+    const newSeries = series.length > 0 ? series.map(item => {
+        item.color = COLORS.GREEN;
+        return item;
+    }) : [];
+    Highcharts.chart('chart', {
         chart: {
             type: 'column'
         },
@@ -7,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             text: null
         },
         xAxis: {
-            categories: ['PO-2020-001', 'PO-2020-002', 'PO-2020-003', 'PO-2020-004']
+            categories: categories
         },
         yAxis: {
             title: {
@@ -18,17 +101,32 @@ document.addEventListener('DOMContentLoaded', function() {
             series: {
                 cursor: 'pointer',
                 events: {
-                    click: event => {
-                        console.log('%c on click series: ', 'color: blue', event);
-
+                    click: async (event) => {
                         showLoading({isShow: true});
+                        try {
+                            const filters = CURRENT_FILTER;;
+                            const data = await getDetailData({
+                                MainFilter: filters.MainFilter,
+                                CustomFilter: filters.CustomFilter,
+                                Page: 1
+                            });
+                            if(!data.Success) {
+                                throw data.Message;
+                            }
 
-                        // proses
-                        setTimeout(() => {
-                            showLoading({isShow: false});
-
+                            const newData = data.Data.filter(item => item.NoPO == event.point.category);
+                            renderDetail({
+                                data: newData,
+                                clearTable: true
+                            });
                             showDetail();
-                        }, 3000);
+                            CURRENT_PAGE = 1;
+                        } catch (error) {
+                            alert(error);
+                            console.error(error);
+                        } finally {
+                            showLoading({isShow: false});
+                        }
                     }
                 }
             }
@@ -70,34 +168,162 @@ document.addEventListener('DOMContentLoaded', function() {
         credits: {
             enabled: false
         },
-        series: [{
-            name: '% Realisasi',
-            data: [75, 34, 50, 100]
-        }]
+        series: newSeries
     });
-});
+}
 
-function onClickDisplayData() {
-    console.log('Display data dashboard realisasi produksi per po');
-
-    showLoading({isShow: true});
-
-    // proses
-    setTimeout(() => {
-        showLoading({isShow: false});
-
-        if(IS_DISPLAY_DATA) {
-            showDetail();
-        } else {
-            showDashboard();
+function renderDetail({data = [], clearTable = false}) {
+    try {
+        if(clearTable) {
+            document.querySelector('#tableDetail').replaceChild(document.createElement('tbody'), document.querySelector('#tableDetail tbody'));
         }
-    }, 3000);
+
+        const tbody = document.querySelector('#tableDetail tbody');
+        data.forEach(item => {
+            let rows =  `<td><a href="${CREATIO_URL+EDIT_PAGE_URL.PRODUCTION_ORDER+item.ProductionOrderId}" target="_blank">${item.NoPO}</a></td>` +
+                        `<td>${item.NamaProyek}</td>` +
+                        `<td class="has-text-right">${item.JumlahProduk}</td>` +
+                        `<td class="has-text-right">${item.Realisasi}</td>` +
+                        `<td class="has-text-right">${item.RealisasiPersen} %</td>`;
+
+            let tr = document.createElement('tr');
+            tr.innerHTML = rows;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        throw error;
+    }
 }
 
-function onClickSearch({filter = null, filterCustom = null, filterOperator = null}) {
-    console.log('%c onClickSearch: ', 'color: green', value);
+async function onClickSearch({MainFilter, CustomFilter, isChart}) {
+    showLoading({isShow: true});
+    try {
+        let data;
+        if(isChart) {
+            data = await getChartData({
+                MainFilter: MainFilter,
+                CustomFilter: CustomFilter
+            });
+            if(!data.Success) {
+                throw data.Message;
+            }
+
+            renderChart({
+                categories: data.Category,
+                series: data.Series
+            });
+            // showDashboard();
+        } else {
+            data = await getDetailData({
+                MainFilter: MainFilter,
+                CustomFilter: CustomFilter,
+                Page: 1
+            });
+            if(!data.Success) {
+                throw data.Message;
+            }
+
+            renderDetail({
+                data: data.Data,
+                clearTable: true
+            });
+            // showDetail();
+        }
+
+        CURRENT_PAGE = 1;
+    } catch (error) { 
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
 }
 
-function onClickShowMore() {
-    console.log('%c onClickShowMore: ', 'color: green');
+async function onClickShowMore() {
+    showLoading({isShow: true});
+    try {
+        CURRENT_PAGE++;
+        const filter = CURRENT_FILTER;
+        const data = await getDetailData({
+            MainFilter: filter.MainFilter,
+            CustomFilter: filter.CustomFilter,
+            Page: CURRENT_PAGE
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        renderDetail({
+            data: data.Data,
+            clearTable: false
+        })
+    } catch (error) {
+        CURRENT_PAGE--;
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
+}
+
+async function onClickDisplayData() {
+    showLoading({isShow: true});
+    try {
+        const filters = IS_SEARCH_CLICK ? getFilter() : CURRENT_FILTER;
+        const data = await getDetailData({
+            MainFilter: filters.MainFilter, 
+            CustomFilter: filters.CustomFilter, 
+            Page: 1
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        CURRENT_PAGE = 1;
+        TOTAL_PAGE = data.TotalPage;
+
+        renderDetail({
+            data: data.Data,
+            clearTable: true
+        });
+        showDetail();
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
+}
+
+async function onClickDisplayChart() {
+    showLoading({isShow: true});
+    try {
+        const filters = IS_SEARCH_CLICK ? getFilter() : CURRENT_FILTER;
+        const data = await getChartData({
+            MainFilter: filters.MainFilter, 
+            CustomFilter: filters.CustomFilter
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        renderChart({
+            categories: data.Category,
+            series: data.Series
+        });
+        showDashboard();
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
+}
+
+async function onClickExportData() {
+    showLoading({isShow: true});
+    try {
+        const filter = CURRENT_FILTER;
+
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
 }

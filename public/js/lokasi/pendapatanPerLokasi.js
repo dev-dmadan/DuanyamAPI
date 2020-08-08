@@ -103,19 +103,54 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function onClickDisplayData() {
-    console.log('Display data dashboard realisasi produksi per po');
+    console.log('Display data....');
 
     showLoading({isShow: true});
+    var myHeaders = new Headers();
+    myHeaders.append("secret-key", "$2b$10$L8/hELkO/Xnv9f/n39Y9eeUgbraugXD4CPX8GIrKXXcfmsHYDzJVO");
 
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch("https://api.jsonbin.io/b/5f296e096f8e4e3faf2ad552/2", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result);
+        showLoading({isShow: false});
+
+        const tbody = document.querySelector('#tableDetail tbody');
+
+        result.Data.forEach(item => {
+            let rows =  `<td>${item.Lokasi}</td>` +
+                        `<td>${item.TglMonitoring}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaAnyaman}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaPengolahan}</td>` +
+                        `<td class="has-text-right">${item.JasaKoordinasi}</td>` +
+                        `<td class="has-text-right">${item.JasaPucuk}</td>` +
+                        `<td class="has-text-right">${item['Total ']}</td>`;
+
+            let tr = document.createElement('tr');
+            tr.innerHTML = rows;
+            tbody.appendChild(tr);
+        });
+
+        showDetail();
+    })
+    .catch(error => console.log('error', error));
+}
+
+function onClickDisplayChart() {
+    console.log('Display chart...');
+
+    showLoading({isShow: true});
+    
     // proses
     setTimeout(() => {
         showLoading({isShow: false});
-
-        if(IS_DISPLAY_DATA) {
-            showDetail();
-        } else {
-            showDashboard();
-        }
+        showDashboard();
     }, 3000);
 }
 
