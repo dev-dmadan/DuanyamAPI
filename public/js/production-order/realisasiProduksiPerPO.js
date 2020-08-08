@@ -212,7 +212,7 @@ async function onClickSearch({MainFilter, CustomFilter, isChart}) {
                 categories: data.Category,
                 series: data.Series
             });
-            showDashboard();
+            // showDashboard();
         } else {
             data = await getDetailData({
                 MainFilter: MainFilter,
@@ -227,7 +227,7 @@ async function onClickSearch({MainFilter, CustomFilter, isChart}) {
                 data: data.Data,
                 clearTable: true
             });
-            showDetail();
+            // showDetail();
         }
 
         CURRENT_PAGE = 1;
