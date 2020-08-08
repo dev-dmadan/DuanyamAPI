@@ -108,12 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         onClickShowMore().catch(error => {
             alert(error);
         });
-
-        if(CURRENT_PAGE < TOTAL_PAGE) {
-            SHOW_MORE.parentElement.classList.remove('is-hidden');
-        } else {
-            SHOW_MORE.parentElement.classList.toggle('is-hidden');
-        }
+        handlingShowMore();
     });
 
     EXPORT_DATA.addEventListener('click', function(event) {
@@ -123,18 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     SEARCH_BUTTON.addEventListener('click', function() {
-        const filters = getFilter();
-        CURRENT_FILTER.MainFilter = filters.MainFilter;
-        CURRENT_FILTER.CustomFilter = filters.CustomFilter;
         IS_SEARCH_CLICK = true;
-
-        onClickSearch({
-            MainFilter: filters.MainFilter,
-            CustomFilter: filters.CustomFilter,
-            isChart: IS_DISPLAY_DATA ? true : false
-        }).catch(error => {
-            alert(error);
-        });
+        onClickSearchButton();
     });
 });
 
@@ -183,10 +168,36 @@ function showDetail() {
     detailChart.classList.remove('is-hidden');
     EXPORT_DATA.parentElement.classList.remove('is-hidden');
 
+    handlingShowMore();
+}
+
+function onClickSearchButton() {
+    const filters = getFilter();
+    if(CURRENT_FILTER.MainFilter != null && CURRENT_FILTER.MainFilter.length > 0) {
+        const index = CURRENT_FILTER.MainFilter.findIndex(item => item.isSeriesClick != undefined);
+        if(index != -1) {
+            filters.MainFilter.push(CURRENT_FILTER.MainFilter[index]);
+        }
+    }
+    CURRENT_FILTER.MainFilter = filters.MainFilter;
+    CURRENT_FILTER.CustomFilter = filters.CustomFilter;
+
+    onClickSearch({
+        MainFilter: filters.MainFilter,
+        CustomFilter: filters.CustomFilter,
+        isChart: IS_DISPLAY_DATA ? true : false
+    }).catch(error => {
+        alert(error);
+    });
+}
+
+function handlingShowMore() {
     if(CURRENT_PAGE < TOTAL_PAGE) {
         SHOW_MORE.parentElement.classList.remove('is-hidden');
     } else {
-        SHOW_MORE.parentElement.classList.toggle('is-hidden');
+        if(CURRENT_PAGE == TOTAL_PAGE) {
+            SHOW_MORE.parentElement.classList.toggle('is-hidden', true);
+        }
     }
 }
 
@@ -392,6 +403,7 @@ function handlingFilter({scope, isCustom = false}) {
         }
 
         document.querySelector(`#${removeFilter}`).addEventListener('click', function() {
+            rootFilter.children[isCustom ? 1 : 2].remove();
             const FIELD_PENCARIAN = document.querySelector('#field-pencarian') != null ? document.querySelector(`#field-pencarian`).value : null;
             const FIELD_PENCARIAN_START = document.querySelector('#field-pencarian-start') != null ? document.querySelector(`#field-pencarian-start`).value : null;
             const FIELD_PENCARIAN_END = document.querySelector('#field-pencarian-end') != null ? document.querySelector(`#field-pencarian-end`).value : null;
@@ -401,8 +413,7 @@ function handlingFilter({scope, isCustom = false}) {
 
             const _isRangeDate = FIELD_PENCARIAN_START != undefined && FIELD_PENCARIAN_END != undefined ? true : false;
             const _isRangeDateCustom = FIELD_PENCARIAN_CUSTOM_START != undefined && FIELD_PENCARIAN_CUSTOM_END != undefined ? true : false;
-
-            rootFilter.children[isCustom ? 1 : 2].remove();
+            
             if(isCustom) {
                 SELECT_FILTER_CUSTOM.options[0].selected = true;
                 SEARCH_BUTTON.disabled = _isRangeDateCustom ? (
@@ -413,6 +424,10 @@ function handlingFilter({scope, isCustom = false}) {
                 SEARCH_BUTTON.disabled = _isRangeDate ? (
                     (FIELD_PENCARIAN_START.trim() != '' && FIELD_PENCARIAN_END.trim() != '') ? false : true
                 ) : FIELD_PENCARIAN != undefined && FIELD_PENCARIAN.trim() != '' ? false : true;
+
+                if(IS_SEARCH_CLICK) {
+                    onClickSearchButton();
+                }
             }
 
             IS_SEARCH_CLICK = false;
@@ -483,7 +498,7 @@ function getFilter() {
     }
     
     return {
-        MainFilter: MainFilter,
+        MainFilter: [MainFilter],
         CustomFilter: CustomFilter
     };
 }
