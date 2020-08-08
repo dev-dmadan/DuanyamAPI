@@ -1,5 +1,5 @@
 // const colors = ["#1074AD", "#3A283D", "#E0543F", "#C5FF3D", "#7DFFF2"];
-const colors = [getColor('red'), getColor('orange'), getColor('yellow'), getColor('green'), getColor('blue')]
+const colors = [COLORS.RED, COLORS.YELLOW, COLORS.GREEN, COLORS.BLUE, COLORS.ORANGE]
 const squares = document.querySelectorAll(".Preloader-square");
 const tl = new TimelineMax(
     { 
