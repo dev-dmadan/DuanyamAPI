@@ -174,10 +174,8 @@ function showDetail() {
 function onClickSearchButton() {
     const filters = getFilter();
     if(CURRENT_FILTER.MainFilter != null && CURRENT_FILTER.MainFilter.length > 0) {
-        const index = CURRENT_FILTER.MainFilter.findIndex(item => item.isSeriesClick != undefined);
-        if(index != -1) {
-            filters.MainFilter.push(CURRENT_FILTER.MainFilter[index]);
-        }
+        const newFilter = CURRENT_FILTER.MainFilter.filter(item => item.isSeriesClick != undefined);
+        newFilter.forEach(item => filters.MainFilter.push(item));
     }
     CURRENT_FILTER.MainFilter = filters.MainFilter;
     CURRENT_FILTER.CustomFilter = filters.CustomFilter;
@@ -363,7 +361,7 @@ function handlingFilter({scope, isCustom = false}) {
                         if(isCustom) {
                             SEARCH_BUTTON.disabled = FIELD_PENCARIAN_CUSTOM != undefined && FIELD_PENCARIAN_CUSTOM.trim() != '' ? false : true;
                         } else {
-                            SEARCH_BUTTON.disabled = FIELD_PENCARIAN != undefined && FIELD_PENCARIAN.trim() != '' ? false : true;
+                            SEARCH_BUTTON.disabled = FIELD_PENCARIAN == undefined ? false : true;
                         }
 
                         IS_SEARCH_CLICK = false;
@@ -476,7 +474,7 @@ function getFilter() {
             };
             MainFilter.value = FIELD_PENCARIAN != null ? FIELD_PENCARIAN.value : null;
             MainFilter.isPeriod = jsonMainFilter.isPeriod ?? false;
-            MainFilter.valueStart = FIELD_PENCARIAN_START != null ? FIELD_PENCARIAN_END.value : null;
+            MainFilter.valueStart = FIELD_PENCARIAN_START != null ? FIELD_PENCARIAN_START.value : null;
             MainFilter.valueEnd = FIELD_PENCARIAN_END != null ? FIELD_PENCARIAN_END.value : null;
             MainFilter.valueOperator = FIELD_OPERATOR != null ? parseInt(FIELD_OPERATOR.value) : null;
         }

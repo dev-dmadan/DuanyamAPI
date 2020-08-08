@@ -233,6 +233,10 @@ class DashboardController extends Controller
                     'text' => 'Nama proyek',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrNamaProyek'
+                        ],
                         'placeholder' => 'Masukkan nama proyek'
                     ])
                 ],
@@ -240,6 +244,10 @@ class DashboardController extends Controller
                     'text' => 'No. PO',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan No PO'
                         // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
@@ -248,6 +256,10 @@ class DashboardController extends Controller
                     'text' => 'Lokasi',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrLokasi',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan Lokasi'
                         // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
@@ -265,6 +277,11 @@ class DashboardController extends Controller
                     'text' => 'Tanggal PO Selesai',
                     'value' => json_encode([
                         'type' => 'range-date',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            // 'column' => 'UsrTanggalClosingPO'
+                            'column' => 'CreatedOn'
+                        ],
                         'placeholder' => 'Masukkan Tanggal PO Selesai'
                     ])
                 ]

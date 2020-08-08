@@ -90,4 +90,9 @@ $router->group(['prefix' => 'dashboard', 'middleware' => 'auth_secret_key'], fun
 $router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'], function () use ($router) {
     $router->post('realisasi-produksi-per-po',  ['uses' => 'DashboardAPIController@realisasiProduksiPerPO']);
     $router->post('detail-realisasi-produksi-per-po',  ['uses' => 'DashboardAPIController@detailRealisasiProduksiPerPO']);
+    $router->post('realisasi-produksi-per-lokasi-per-po',  ['uses' => 'DashboardAPIController@realisasiProduksiPerLokasiPerPO']);
+    $router->post('detail-realisasi-produksi-per-lokasi-per-po',  ['uses' => 'DashboardAPIController@detailRealisasiProduksiPerLokasiPerPO']);
+    $router->post('total-biaya-per-po',  ['uses' => 'DashboardAPIController@totalBiayaProduksiPerPO']);
+    $router->post('total-biaya-per-semua-po',  ['uses' => 'DashboardAPIController@totalBiayaProduksiPerSemuaPO']);
+    $router->post('detail-total-biaya-per-po',  ['uses' => 'DashboardAPIController@detailTotalBiayaProduksiPerPO']);
 });

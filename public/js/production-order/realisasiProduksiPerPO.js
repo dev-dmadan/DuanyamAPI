@@ -151,7 +151,6 @@ function renderChart({categories = [], series = []}) {
                             TOTAL_PAGE = data.TotalPage;
                             
                             showDetail();
-                            IS_SEARCH_CLICK = false;
                         } catch (error) {
                             alert(error);
                             console.error(error);

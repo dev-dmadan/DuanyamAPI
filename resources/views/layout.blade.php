@@ -91,7 +91,7 @@
                 
                 @yield('detail-chart')
 
-                <div class="has-text-centered">
+                <div class="has-text-centered is-hidden">
                     <a href="javascript:void(0);" id="show-more">
                         <span class="icon"><i class="fas fa-angle-double-down"></i></span> 
                         <span>Show more</span>
