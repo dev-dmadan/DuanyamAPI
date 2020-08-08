@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .finally(() => {
         showLoading({isShow: false});
-    })
+    });
 });
 
 async function init() {
@@ -104,9 +104,37 @@ function renderChart({categories = [], series = []}) {
                     click: async (event) => {
                         showLoading({isShow: true});
                         try {
-                            const filters = CURRENT_FILTER;;
+                            const filters = CURRENT_FILTER;
+                            const extendFilter = {
+                                column: {
+                                    source: 'UsrProductionOrder',
+                                    column: 'UsrName'
+                                },
+                                value: event.point.category,
+                                isPeriod: false,
+                                valueStart: null,
+                                valueEnd: null,
+                                valueOperator: null,
+                                isSeriesClick: true
+                            };
+                            if(filters.MainFilter == null) {
+                                filters.MainFilter = [extendFilter]
+                            } else {
+                                filters.MainFilter.push(extendFilter);
+                            }
+
+                            const newMainFilter = filters.MainFilter.map(item => {
+                                return {
+                                    column: item.column,
+                                    value: item.value,
+                                    isPeriod: item.isPeriod,
+                                    valueStart: item.valueStart,
+                                    valueEnd: item.valueEnd,
+                                    valueOperator: item.valueOperator
+                                }
+                            });
                             const data = await getDetailData({
-                                MainFilter: filters.MainFilter,
+                                MainFilter: newMainFilter,
                                 CustomFilter: filters.CustomFilter,
                                 Page: 1
                             });
@@ -114,13 +142,16 @@ function renderChart({categories = [], series = []}) {
                                 throw data.Message;
                             }
 
-                            const newData = data.Data.filter(item => item.NoPO == event.point.category);
                             renderDetail({
-                                data: newData,
+                                data: data.Data,
                                 clearTable: true
                             });
-                            showDetail();
+                            
                             CURRENT_PAGE = 1;
+                            TOTAL_PAGE = data.TotalPage;
+                            
+                            showDetail();
+                            IS_SEARCH_CLICK = false;
                         } catch (error) {
                             alert(error);
                             console.error(error);
@@ -212,7 +243,6 @@ async function onClickSearch({MainFilter, CustomFilter, isChart}) {
                 categories: data.Category,
                 series: data.Series
             });
-            // showDashboard();
         } else {
             data = await getDetailData({
                 MainFilter: MainFilter,
@@ -227,7 +257,6 @@ async function onClickSearch({MainFilter, CustomFilter, isChart}) {
                 data: data.Data,
                 clearTable: true
             });
-            // showDetail();
         }
 
         CURRENT_PAGE = 1;
@@ -295,7 +324,20 @@ async function onClickDisplayData() {
 async function onClickDisplayChart() {
     showLoading({isShow: true});
     try {
-        const filters = IS_SEARCH_CLICK ? getFilter() : CURRENT_FILTER;
+        let filters;
+        if(IS_SEARCH_CLICK) {
+            filters = getFilter();
+        } else {
+            if(CURRENT_FILTER.MainFilter != null && CURRENT_FILTER.MainFilter.length > 0) {
+                const index = CURRENT_FILTER.MainFilter.findIndex(item => item.isSeriesClick != undefined);
+                if(index != -1) {
+                    CURRENT_FILTER.MainFilter.splice(index, 1);
+                }
+            }
+            
+            filters = CURRENT_FILTER;
+        }
+
         const data = await getChartData({
             MainFilter: filters.MainFilter, 
             CustomFilter: filters.CustomFilter
@@ -303,6 +345,9 @@ async function onClickDisplayChart() {
         if(!data.Success) {
             throw data.Message;
         }
+
+        CURRENT_PAGE = 1;
+        TOTAL_PAGE = 0;
 
         renderChart({
             categories: data.Category,
