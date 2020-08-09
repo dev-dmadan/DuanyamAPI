@@ -132,4 +132,17 @@ class DashboardAPIController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function avaragePendapatanPerLokasi(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'AveragePendaptanPerLokasi'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null
+        ]);
+
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
 }
