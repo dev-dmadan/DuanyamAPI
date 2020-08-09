@@ -95,5 +95,8 @@ $router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'],
     $router->post('total-biaya-per-po',  ['uses' => 'DashboardAPIController@totalBiayaProduksiPerPO']);
     $router->post('total-biaya-per-semua-po',  ['uses' => 'DashboardAPIController@totalBiayaProduksiPerSemuaPO']);
     $router->post('detail-total-biaya-per-po',  ['uses' => 'DashboardAPIController@detailTotalBiayaProduksiPerPO']);
-    $router->post('average-pendaptan-per-lokasi',  ['uses' => 'DashboardAPIController@avaragePendapatanPerLokasi']);
+    $router->post('avarage-pendapatan-per-lokasi',  ['uses' => 'DashboardAPIController@avaragePendapatanPerLokasi']);
+    $router->post('detail-average-pendaptan-per-lokasi',  ['uses' => 'DashboardAPIController@detailAvaragePendapatanPerLokasi']);
+    $router->post('pendapatan-per-lokasi',  ['uses' => 'DashboardAPIController@pendapatanPerLokasi']);
+    $router->post('detail-pendapatan-per-lokasi',  ['uses' => 'DashboardAPIController@detailPendapatanPerLokasi']);
 });

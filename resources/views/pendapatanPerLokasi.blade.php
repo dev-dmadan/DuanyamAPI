@@ -7,7 +7,7 @@
                 <div class="field pr-3">
                     <div class="select is-small is-rounded">
                         <select id="select-filter-custom">
-                            <option selected disabled>Pilih filter</option>
+                            <option value="" selected disabled>Pilih filter</option>
                             @foreach ($filtersCustom as $filter)
                                 <option value="{{ $filter->value }}">{{ $filter->text}}</option>
                             @endforeach

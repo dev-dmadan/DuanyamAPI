@@ -34,7 +34,7 @@ async function getChartData({MainFilter, CustomFilter}) {
         const secretKey = getSecretKey();
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        const req = await fetch(`${APP_URL}/dashboard/api/average-pendaptan-per-lokasi?SecretKey=${secretKey}`, {
+        const req = await fetch(`${APP_URL}/dashboard/api/avarage-pendapatan-per-lokasi?SecretKey=${secretKey}`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
@@ -57,7 +57,7 @@ async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = fal
         const secretKey = getSecretKey();
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        const req = await fetch(`${APP_URL}/dashboard/api/detail-realisasi-produksi-per-lokasi-per-po?SecretKey=${secretKey}`, {
+        const req = await fetch(`${APP_URL}/dashboard/api/detail-average-pendaptan-per-lokasi?SecretKey=${secretKey}`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
@@ -214,11 +214,12 @@ function renderDetail({data = [], clearTable = false}) {
 
         const tbody = document.querySelector('#tableDetail tbody');
         data.forEach(item => {
-            let rows =  `<td><a href="${CREATIO_URL+EDIT_PAGE_URL.PRODUCTION_ORDER+item.ProductionOrderId}" target="_blank">${item.NoPO}</a></td>` +
-                        `<td>${item.Lokasi}</td>` +
-                        `<td class="has-text-right">${item.JumlahProduk}</td>` +
-                        `<td class="has-text-right">${item.Realisasi}</td>` +
-                        `<td class="has-text-right">${item.RealisasiPersen} %</td>`;
+            let rows =  `<td>${item.Lokasi}</a></td>` +
+                        `<td class="has-text-right">${item.TotalJasaAnyam}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaPengolahan}</td>` +
+                        `<td class="has-text-right">${item.TotalJasa}</td>` +
+                        `<td class="has-text-right">${item.JumlahIbu}</td>` +
+                        `<td class="has-text-right">${item.AveragePendapatan}</td>`;
 
             let tr = document.createElement('tr');
             tr.innerHTML = rows;

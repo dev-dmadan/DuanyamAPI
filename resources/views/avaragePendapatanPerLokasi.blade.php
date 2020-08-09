@@ -32,30 +32,6 @@
             </tr>
         </thead>
         <tbody>
-        <tr>
-                <td>Wulublolong</td>
-                <td class="has-text-right">380000</td>
-                <td class="has-text-right">220000</td>
-                <td class="has-text-right">600000</td>
-                <td class="has-text-right">4</td>
-                <td class="has-text-right">150000</td>
-            </tr>
-            <tr>
-                <td>Bubuatagamu</td>
-                <td class="has-text-right">800000</td>
-                <td class="has-text-right">400000</td>
-                <td class="has-text-right">1200000</td>
-                <td class="has-text-right">3</td>
-                <td class="has-text-right">400000</td>
-            </tr>
-            <tr>
-                <td>Kalike</td>
-                <td class="has-text-right">340000</td>
-                <td class="has-text-right">300000</td>
-                <td class="has-text-right">640000</td>
-                <td class="has-text-right">7</td>
-                <td class="has-text-right">91429</td>
-            </tr>
         </tbody>
     </table>
 @endsection
