@@ -192,26 +192,14 @@ class DashboardController extends Controller
             'title' => 'Realisasi Produksi per Lokasi',
             'filters' => [
                 (Object)[
-                    'text' => 'Nama proyek',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan nama proyek'
-                    ])
-                ],
-                (Object)[
-                    'text' => 'No. PO',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan No PO'
-                        // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
-                    ])
-                ],
-                (Object)[
                     'text' => 'Lokasi',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrLokasi',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan Lokasi'
-                        // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
                 ]
             ]

@@ -78,7 +78,7 @@ async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = fal
 }
 
 function renderChart({categories = [], series = []}) {
-    const myChart = Highcharts.chart('chart', {
+    Highcharts.chart('chart', {
         chart: {
             type: 'column'
         },
@@ -117,13 +117,15 @@ function renderChart({categories = [], series = []}) {
                         showLoading({isShow: true});
                         try {
                             const filters = CURRENT_FILTER;
+                            const textSeries = event.point.category.split('<br/>');
+                            const valueLokasi = textSeries[0];
                             const extendFilter = [
                                 {
                                     column: {
                                         source: 'UsrLokasi',
                                         column: 'UsrName'
                                     },
-                                    value: event.point.category,
+                                    value: valueLokasi,
                                     isPeriod: false,
                                     valueStart: null,
                                     valueEnd: null,
