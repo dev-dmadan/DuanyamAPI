@@ -99,4 +99,6 @@ $router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'],
     $router->post('detail-average-pendaptan-per-lokasi',  ['uses' => 'DashboardAPIController@detailAvaragePendapatanPerLokasi']);
     $router->post('pendapatan-per-lokasi',  ['uses' => 'DashboardAPIController@pendapatanPerLokasi']);
     $router->post('detail-pendapatan-per-lokasi',  ['uses' => 'DashboardAPIController@detailPendapatanPerLokasi']);
+    $router->post('top-x-ibu',  ['uses' => 'DashboardAPIController@topXibu']);
+    $router->post('detail-top-x-ibu',  ['uses' => 'DashboardAPIController@detailTopXibu']);
 });
