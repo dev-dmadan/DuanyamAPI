@@ -121,15 +121,17 @@ function renderChart({categories = [], series = []}) {
                         try {
                             const filters = CURRENT_FILTER;
                             const textSeries = event.point.category.split('<br/>');
-                            const valueLokasi = textSeries[0];
-                            const valueNoPO = textSeries[1];
+                            const valueTanggal = textSeries[0].split('-');
+                            const convertMonth = MONTHS.indexOf(valueTanggal[1])+1;
+                            const newTgl = `20${valueTanggal[2]}-${convertMonth < 10 ? '0'+convertMonth : convertMonth}-${valueTanggal[0]}`;
+                            const valueLokasi = textSeries[1];
                             const extendFilter = [
                                 {
                                     column: {
-                                        source: 'UsrProductionOrder',
-                                        column: 'UsrName'
+                                        source: 'UsrViewTotalBiayaPO',
+                                        column: 'UsrTanggalMonitoring2'
                                     },
-                                    value: valueNoPO,
+                                    value: newTgl,
                                     isPeriod: false,
                                     valueStart: null,
                                     valueEnd: null,

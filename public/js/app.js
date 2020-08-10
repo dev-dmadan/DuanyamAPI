@@ -48,6 +48,7 @@ const COLORS = {
     GREEN: '#a7e9af',
     GREEN_SOFT: '#cee397'
 };
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const CURRENT_FILTER = {
     MainFilter: null,
     CustomFilter: null

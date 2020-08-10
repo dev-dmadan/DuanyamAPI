@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         series: [
             {
                 name: 'Average Pendapatan',
-                color: getColor('blue'),
+                color: COLORS.BLUE,
                 data: [100500, 99000, 97000, 70000, 57000, 47000, 45000, 40000, 30000, 25000]
             }
         ]
