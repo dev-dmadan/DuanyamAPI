@@ -8,70 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     .finally(() => {
         showLoading({isShow: false});
     });
-
-    Highcharts.chart('chart', {
-        chart: {
-            type: 'column'
-        },
-    
-        title: {
-            text: null
-        },
-    
-        xAxis: {
-            categories: ['Bubuatagamu', 'Kalike', 'Lamawai', 'Duntana', 'Watanhura']
-        },
-    
-        yAxis: {
-            allowDecimals: false,
-            min: 0,
-            title: {
-                text: 'Total'
-            }
-        },
-    
-        tooltip: {
-            formatter: function() {
-                let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
-                                `<span style="font-size: 12px">${this.series.name}: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
-                return newLabel;
-            }
-        },
-    
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true
-                }
-            },
-            series: {
-                cursor: 'pointer',
-                events: {
-                    click: event => {
-                        showLoading({isShow: true})
-                        //proses
-                        setTimeout(() => {
-                            showLoading({isShow: false})
-
-                            showDetail();
-                        }, 1500);
-                    }
-                }
-            }
-        },
-    
-        series: [{
-            name: 'Total Jasa Anyam',
-            data: [120000, 125000, 170000, 156000, 500000]
-        }, {
-            name: 'Total Jasa Pengolahan',
-            data: [132000, 770000, 170000, 919000, 250000]
-        }, {
-            name: 'Total Jasa Kordinasi',
-            data: [136000, 101000, 930000, 123950, 900000]
-        }]
-    });
 });
 
 async function init() {
@@ -153,7 +89,10 @@ function renderChart({categories = [], series = []}) {
             text: null
         },
         xAxis: {
-            categories: categories
+            categories: categories.map(item => {
+                const text = item.split("\n");
+                return `${text[0]}<br/>${text[1]}`;
+            })
         },
         yAxis: {
             title: {
