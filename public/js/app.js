@@ -226,10 +226,6 @@ function handlingFilter({scope, isCustom = false}) {
                                             `<option value="${OPERATOR_TYPE.EQUAL.value}"> ${OPERATOR_TYPE.EQUAL.symbol} </option>` +
                                             `<option value="${OPERATOR_TYPE.NOT_EQUAL.value}"> ${OPERATOR_TYPE.NOT_EQUAL.symbol} </option>` +
                                             `<option value="${OPERATOR_TYPE.CONTAIN.value}"> ${OPERATOR_TYPE.CONTAIN.symbol} </option>` +
-                                            `<option value="${OPERATOR_TYPE.GREATER.value}"> ${OPERATOR_TYPE.GREATER.symbol} </option>` +
-                                            `<option value="${OPERATOR_TYPE.GREATER_EQUAL.value}"> ${OPERATOR_TYPE.GREATER_EQUAL.symbol} </option>` +
-                                            `<option value="${OPERATOR_TYPE.LESS.value}"> ${OPERATOR_TYPE.LESS.symbol} </option>` +
-                                            `<option value="${OPERATOR_TYPE.LESS_EQUAL.value}"> ${OPERATOR_TYPE.LESS_EQUAL.symbol} </option>` +
                                         '</select>' +
                                     '</span>' +
                                 '</div>' +
@@ -423,9 +419,10 @@ function handlingFilter({scope, isCustom = false}) {
                     (FIELD_PENCARIAN_START.trim() != '' && FIELD_PENCARIAN_END.trim() != '') ? false : true
                 ) : FIELD_PENCARIAN != undefined && FIELD_PENCARIAN.trim() != '' ? false : true;
 
-                if(IS_SEARCH_CLICK) {
-                    onClickSearchButton();
-                }
+            }
+
+            if(IS_SEARCH_CLICK) {
+                onClickSearchButton();
             }
 
             IS_SEARCH_CLICK = false;

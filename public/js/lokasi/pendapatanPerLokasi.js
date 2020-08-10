@@ -1,4 +1,83 @@
 document.addEventListener('DOMContentLoaded', function() {
+    showLoading({isShow: true});
+    init()
+    .catch(error => {
+        alert(`Something wrong happen: ${error}`);
+        console.error(error);
+    })
+    .finally(() => {
+        showLoading({isShow: false});
+    });
+});
+
+async function init() {
+    try {
+        const req = await getChartData({
+            MainFilter: null, 
+            CustomFilter: null
+        });
+        if(!req.Success) {
+            throw req.Message;
+        }
+
+        renderChart({
+            categories: req.Category,
+            series: req.Series
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getChartData({MainFilter, CustomFilter}) {
+    try {
+        const secretKey = getSecretKey();
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        const req = await fetch(`${APP_URL}/dashboard/api/pendapatan-per-lokasi?SecretKey=${secretKey}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                MainFilter: MainFilter ?? null,
+                CustomFilter: CustomFilter ?? null
+            })
+        });
+        if(!req.ok) {
+            throw new Error('Something wrong error..');
+        }
+
+        return await req.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = false}) {
+    try {
+        const secretKey = getSecretKey();
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        const req = await fetch(`${APP_URL}/dashboard/api/detail-pendapatan-per-lokasi?SecretKey=${secretKey}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                MainFilter: MainFilter ?? null,
+                CustomFilter: CustomFilter ?? null,
+                Page: Page,
+                isExport: isExport
+            })
+        });
+        if(!req.ok) {
+            throw new Error('Something wrong error..');
+        }
+
+        return await req.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
+function renderChart({categories = [], series = []}) {
     const myChart = Highcharts.chart('chart', {
         chart: {
             type: 'column'
@@ -6,38 +85,15 @@ document.addEventListener('DOMContentLoaded', function() {
         title: {
             text: null
         },
+        subtitle: {
+            text: null
+        },
         xAxis: {
-            categories: ['Bandung', 'Bogor', 'Jakarta']
+            categories: categories,
         },
         yAxis: {
-            min: 0,
             title: {
                 text: 'Total Jasa'
-            },
-        },
-        plotOptions: {
-            series: {
-                cursor: 'pointer',
-                events: {
-                    click: event => {
-                        console.log('%c on click series: ', 'color: blue', event);
-
-                        showLoading({isShow: true});
-
-                        // proses
-                        setTimeout(() => {
-                            showLoading({isShow: false});
-
-                            showDetail();
-                        }, 3000);
-                    }
-                }
-            },
-            column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true
-                }
             }
         },
         tooltip: {
@@ -45,6 +101,78 @@ document.addEventListener('DOMContentLoaded', function() {
                 let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
                                 `<span style="font-size: 12px">${this.series.name}: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
                 return newLabel;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: async (event) => {
+                        showLoading({isShow: true});
+                        try {
+                            const filters = CURRENT_FILTER;
+                            const extendFilter = [
+                                {
+                                    column: {
+                                        source: 'UsrLokasi',
+                                        column: 'UsrName'
+                                    },
+                                    value: event.point.category,
+                                    isPeriod: false,
+                                    valueStart: null,
+                                    valueEnd: null,
+                                    valueOperator: null,
+                                    isSeriesClick: true
+                                }
+                            ];
+                            if(filters.MainFilter == null) {
+                                filters.MainFilter = extendFilter;
+                            } else {
+                                extendFilter.forEach(item => filters.MainFilter.push(item));
+                            }
+
+                            const newMainFilter = filters.MainFilter.map(item => {
+                                return {
+                                    column: item.column,
+                                    value: item.value,
+                                    isPeriod: item.isPeriod,
+                                    valueStart: item.valueStart,
+                                    valueEnd: item.valueEnd,
+                                    valueOperator: item.valueOperator
+                                }
+                            });
+                            const data = await getDetailData({
+                                MainFilter: newMainFilter,
+                                CustomFilter: filters.CustomFilter,
+                                Page: 1
+                            });
+                            if(!data.Success) {
+                                throw data.Message;
+                            }
+
+                            renderDetail({
+                                data: data.Data,
+                                clearTable: true
+                            });
+                            
+                            CURRENT_PAGE = 1;
+                            TOTAL_PAGE = data.TotalPage;
+                            
+                            showDetail();
+                        } catch (error) {
+                            alert(error);
+                            console.error(error);
+                        } finally {
+                            showLoading({isShow: false});
+                        }
+                    }
+                }
             }
         },
         responsive: {
@@ -77,87 +205,191 @@ document.addEventListener('DOMContentLoaded', function() {
         credits: {
             enabled: false
         },
-        series: [
-            {
-                name: 'Total Jasa Anyaman',
-                color: getColor('blue'),
-                data: [120000, 100000, 321500]
-            },
-            {
-                name: 'Total Jasa Pengolahan',
-                color: getColor('orange'),
-                data: [10000, 25000, 50000]
-            },
-            {
-                name: 'Total Jasa Koordinasi',
-                color: getColor('grey'),
-                data: [80000, 50000, 25000]
-            },
-            {
-                name: 'Total Jasa Pucuk',
-                color: getColor('yellow'),
-                data: [25500, 12500, 37900]
+        series: series.map(item => {
+            if(item.name.toLowerCase() == 'total jasa anyam') {
+                item.color = COLORS.ORANGE;
+            } else if(item.name.toLowerCase() == 'total jasa pengolahan') {
+                item.color = COLORS.GREY;
+            } else if(item.name.toLowerCase() == 'jasa kordinasi') {
+                item.color = COLORS.RED;
+            }else {
+                item.color = COLORS.BLUE;
             }
-        ]
+
+            return item;
+        })
     });
-});
+}
 
-function onClickDisplayData() {
-    console.log('Display data....');
-
-    showLoading({isShow: true});
-    var myHeaders = new Headers();
-    myHeaders.append("secret-key", "$2b$10$L8/hELkO/Xnv9f/n39Y9eeUgbraugXD4CPX8GIrKXXcfmsHYDzJVO");
-
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    fetch("https://api.jsonbin.io/b/5f296e096f8e4e3faf2ad552/2", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result);
-        showLoading({isShow: false});
+function renderDetail({data = [], clearTable = false}) {
+    try {
+        if(clearTable) {
+            document.querySelector('#tableDetail').replaceChild(document.createElement('tbody'), document.querySelector('#tableDetail tbody'));
+        }
 
         const tbody = document.querySelector('#tableDetail tbody');
-
-        result.Data.forEach(item => {
+        data.forEach(item => {
             let rows =  `<td>${item.Lokasi}</td>` +
-                        `<td>${item.TglMonitoring}</td>` +
-                        `<td class="has-text-right">${item.TotalJasaAnyaman}</td>` +
+                        `<td>${item.TanggalMonitoring}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaAnyam}</td>` +
                         `<td class="has-text-right">${item.TotalJasaPengolahan}</td>` +
-                        `<td class="has-text-right">${item.JasaKoordinasi}</td>` +
-                        `<td class="has-text-right">${item.JasaPucuk}</td>` +
-                        `<td class="has-text-right">${item['Total ']}</td>`;
+                        `<td class="has-text-right">${item.TotalJasaKoordinasi}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaPucuk}</td>` +
+                        `<td class="has-text-right">${item.TotalJasa}</td>`;
 
             let tr = document.createElement('tr');
             tr.innerHTML = rows;
             tbody.appendChild(tr);
         });
-
-        showDetail();
-    })
-    .catch(error => console.log('error', error));
+    } catch (error) {
+        throw error;
+    }
 }
 
-function onClickDisplayChart() {
-    console.log('Display chart...');
-
+async function onClickSearch({MainFilter, CustomFilter, isChart}) {
     showLoading({isShow: true});
-    
-    // proses
-    setTimeout(() => {
+    try {
+        let data;
+        if(isChart) {
+            data = await getChartData({
+                MainFilter: MainFilter,
+                CustomFilter: CustomFilter
+            });
+            if(!data.Success) {
+                throw data.Message;
+            }
+
+            renderChart({
+                categories: data.Category,
+                series: data.Series
+            });
+        } else {
+            data = await getDetailData({
+                MainFilter: MainFilter,
+                CustomFilter: CustomFilter,
+                Page: 1
+            });
+            if(!data.Success) {
+                throw data.Message;
+            }
+
+            renderDetail({
+                data: data.Data,
+                clearTable: true
+            });
+        }
+
+        CURRENT_PAGE = 1;
+    } catch (error) { 
+        throw error;
+    } finally {
         showLoading({isShow: false});
+    }
+}
+
+async function onClickShowMore() {
+    showLoading({isShow: true});
+    try {
+        CURRENT_PAGE++;
+        const filter = CURRENT_FILTER;
+        const data = await getDetailData({
+            MainFilter: filter.MainFilter,
+            CustomFilter: filter.CustomFilter,
+            Page: CURRENT_PAGE
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        renderDetail({
+            data: data.Data,
+            clearTable: false
+        })
+    } catch (error) {
+        CURRENT_PAGE--;
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
+}
+
+async function onClickDisplayData() {
+    showLoading({isShow: true});
+    try {
+        const filters = IS_SEARCH_CLICK ? getFilter() : CURRENT_FILTER;
+        const data = await getDetailData({
+            MainFilter: filters.MainFilter, 
+            CustomFilter: filters.CustomFilter, 
+            Page: 1
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        CURRENT_PAGE = 1;
+        TOTAL_PAGE = data.TotalPage;
+
+        renderDetail({
+            data: data.Data,
+            clearTable: true
+        });
+        showDetail();
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
+}
+
+async function onClickDisplayChart() {
+    showLoading({isShow: true});
+    try {
+        let filters;
+        if(IS_SEARCH_CLICK) {
+            filters = getFilter();
+        } else {
+            if(CURRENT_FILTER.MainFilter != null && CURRENT_FILTER.MainFilter.length > 0) {                
+                let index = -1;
+                while((index = CURRENT_FILTER.MainFilter.findIndex(item => item.isSeriesClick != undefined)) != -1) {
+                    CURRENT_FILTER.MainFilter.splice(index, 1);
+                }
+            }
+            
+            filters = CURRENT_FILTER;
+        }
+
+        const data = await getChartData({
+            MainFilter: filters.MainFilter, 
+            CustomFilter: filters.CustomFilter
+        });
+        if(!data.Success) {
+            throw data.Message;
+        }
+
+        CURRENT_PAGE = 1;
+        TOTAL_PAGE = 0;
+
+        renderChart({
+            categories: data.Category,
+            series: data.Series
+        });
         showDashboard();
-    }, 3000);
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
 }
 
-function onClickSearch(value) {
-    console.log('%c onClickSearch: ', 'color: green', value);
+async function onClickExportData() {
+    showLoading({isShow: true});
+    try {
+        const filter = CURRENT_FILTER;
+
+    } catch (error) {
+        throw error;
+    } finally {
+        showLoading({isShow: false});
+    }
 }
 
-function onClickShowMore() {
-    console.log('%c onClickShowMore: ', 'color: green');
-}

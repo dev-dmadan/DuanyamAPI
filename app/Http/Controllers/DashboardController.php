@@ -96,32 +96,26 @@ class DashboardController extends Controller
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
-                        'placeholder' => 'Masukkan tanggal'
+                        'column' => [
+                            'source' => 'UsrMonitoringOrder',
+                            'column' => 'UsrTanggalMonitoring'
+                        ],
+                        'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
             ],
             'filtersCustom' => [
                 (Object)[
-                    'text' => 'Nama proyek',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan nama proyek'
-                    ])
-                ],
-                (Object)[
-                    'text' => 'No PO',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan No PO'
-                    ])
-                ],
-                (Object)[
                     'text' => 'Lokasi',
                     'value' => json_encode([
                         'type' => 'text',
-                        'placeholder' => 'Masukkan lokasi'
+                        'column' => [
+                            'source' => 'UsrLokasi',
+                            'column' => 'UsrName'
+                        ],
+                        'placeholder' => 'Masukkan Lokasi'
                     ])
-                ],
+                ]
             ]
         ]);
     }
@@ -364,29 +358,23 @@ class DashboardController extends Controller
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
+                        'column' => [
+                            'source' => 'UsrMonitoringOrder',
+                            'column' => 'UsrTanggalMonitoring'
+                        ],
                         'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
             ],
             'filtersCustom' => [
                 (Object)[
-                    'text' => 'Nama Proyek',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan Nama Proyek'
-                    ])
-                ],
-                (Object)[
-                    'text' => 'No. PO',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan No. PO'
-                    ])
-                ],
-                (Object)[
                     'text' => 'Lokasi',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrLokasi',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan Lokasi'
                     ])
                 ]
