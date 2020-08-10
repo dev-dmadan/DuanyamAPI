@@ -460,7 +460,8 @@ function getFilter() {
     const FIELD_PENCARIAN_CUSTOM_START = document.querySelector('#field-pencarian-start-custom');
     const FIELD_PENCARIAN_CUSTOM_END = document.querySelector('#field-pencarian-end-custom');
     const FIELD_OPERATOR_CUSTOM = document.querySelector('#field-operator-custom');
-
+    
+    let isMainFilterEmpty = false;
     try {
         const jsonMainFilter = SELECT_FILTER != undefined && SELECT_FILTER.value.trim() != '' ? JSON.parse(SELECT_FILTER.value) : null;
         const jsonCustomFilter = SELECT_FILTER_CUSTOM != undefined && SELECT_FILTER_CUSTOM.value.trim() != '' ? JSON.parse(SELECT_FILTER_CUSTOM.value) : null;
@@ -475,6 +476,8 @@ function getFilter() {
             MainFilter.valueStart = FIELD_PENCARIAN_START != null ? FIELD_PENCARIAN_START.value : null;
             MainFilter.valueEnd = FIELD_PENCARIAN_END != null ? FIELD_PENCARIAN_END.value : null;
             MainFilter.valueOperator = FIELD_OPERATOR != null ? parseInt(FIELD_OPERATOR.value) : null;
+        } else {
+            isMainFilterEmpty = true;
         }
 
         if(jsonCustomFilter) {
@@ -494,7 +497,7 @@ function getFilter() {
     }
     
     return {
-        MainFilter: [MainFilter],
+        MainFilter: isMainFilterEmpty ? [] : [MainFilter],
         CustomFilter: CustomFilter
     };
 }

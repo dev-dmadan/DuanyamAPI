@@ -261,8 +261,7 @@ class DashboardController extends Controller
                         'type' => 'range-date',
                         'column' => [
                             'source' => 'UsrProductionOrder',
-                            // 'column' => 'UsrTanggalClosingPO'
-                            'column' => 'CreatedOn'
+                            'column' => 'UsrTanggalClosingPO'
                         ],
                         'placeholder' => 'Masukkan Tanggal PO Selesai'
                     ])
@@ -280,6 +279,10 @@ class DashboardController extends Controller
                     'text' => 'Tanggal PO Selesai',
                     'value' => json_encode([
                         'type' => 'range-date',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrTanggalClosingPO'
+                        ],
                         'placeholder' => 'Masukkan Tanggal PO Selesai'
                     ])
                 ]
@@ -289,6 +292,10 @@ class DashboardController extends Controller
                     'text' => 'No. PO',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan No. PO'
                     ])
                 ]
