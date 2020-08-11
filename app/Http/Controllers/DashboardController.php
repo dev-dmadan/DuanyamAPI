@@ -217,17 +217,6 @@ class DashboardController extends Controller
             'title' => 'Realisasi Produksi Lokasi per PO',
             'filters' => [
                 (Object)[
-                    'text' => 'Nama proyek',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'column' => [
-                            'source' => 'UsrProductionOrder',
-                            'column' => 'UsrNamaProyek'
-                        ],
-                        'placeholder' => 'Masukkan nama proyek'
-                    ])
-                ],
-                (Object)[
                     'text' => 'No. PO',
                     'value' => json_encode([
                         'type' => 'text',
@@ -386,6 +375,10 @@ class DashboardController extends Controller
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
+                        'column' => [
+                            'source' => 'A',
+                            'column' => 'TanggalMonitoring'
+                        ],
                         'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
@@ -395,9 +388,13 @@ class DashboardController extends Controller
                     'text' => 'Nama Ibu',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'A',
+                            'column' => 'Ibu'
+                        ],
                         'placeholder' => 'Masukkan Nama Ibu'
                     ])
-                ],
+                ]
             ]
 
         ]);

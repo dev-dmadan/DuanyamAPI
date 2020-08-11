@@ -375,4 +375,43 @@ class DashboardAPIController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function raportPerIbu(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'RaportIbu'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null
+        ]);
+
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function detailRaportPerIbu(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'DetailRaportIbu'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null,
+            'Page' => $request->has('Page') ? $request->input('Page') : 1,
+            'isExport' => $request->has('isExport') ? $request->input('isExport') : false
+        ]);
+
+        if($response->Success) {
+            $newData = array_map(function($value) {
+                $value['TotalJasaAnyam'] = 'Rp '.number_format($value['TotalJasaAnyam'], 2, ',', '.');
+                $value['TotalJasaPengolahan'] = 'Rp '.number_format($value['TotalJasaPengolahan'], 2, ',', '.');
+                $value['TotalJasa'] = 'Rp '.number_format($value['TotalJasa'], 2, ',', '.');
+                
+                return $value;
+            }, $response->Response->Data);
+            $response->Response->Data = $newData;
+        }
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
 }
