@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         series: [
             {
                 name: 'Jumlah ibu aktif',
-                color: getColor('blue'),
+                color: COLORS.BLUE,
                 data: [5, 10, 3]
             }
         ]
