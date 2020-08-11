@@ -102,4 +102,6 @@ $router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'],
     $router->post('detail-realisasi-produksi-per-lokasi',  ['uses' => 'DashboardAPIController@detailRealisasiProduksiPerLokasi']);
     $router->post('realisasi-per-item-grading',  ['uses' => 'DashboardAPIController@realisasiPerItemGrading']);
     $router->post('detail-realisasi-per-item-grading',  ['uses' => 'DashboardAPIController@detailrealisasiPerItemGrading']);
+    $router->post('top-x-ibu',  ['uses' => 'DashboardAPIController@topXibu']);
+    $router->post('detail-top-x-ibu',  ['uses' => 'DashboardAPIController@detailTopXibu']);
 });
