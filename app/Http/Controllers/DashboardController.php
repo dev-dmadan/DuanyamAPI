@@ -55,35 +55,72 @@ class DashboardController extends Controller
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
-                        'placeholder' => 'Masukkan tanggal'
-                    ])
-                ]
-            ]
-        ]);
-    }
-
-    public function realisasiPerItemGradingPerProduk()
-    {
-        return view('realisasiPerItemGradingPerProduk', [
-            'title' => 'Realisasi Produksi per Item - Grading',
-            'filters' => [
-                (Object)[
-                    'text' => 'Tanggal Monitoring',
-                    'value' => json_encode([
-                        'type' => 'range-date',
-                        'placeholder' => 'Masukkan tanggal'
+                        'column' => [
+                            'source' => 'UsrViewJasaAnyam',
+                            'column' => 'UsrTanggalMonitoring'
+                        ],
+                        'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
             ],
             'filtersCustom' => [
                 (Object)[
-                    'text' => 'Nama produk',
+                    'text' => 'Produk',
                     'value' => json_encode([
                         'type' => 'text',
-                        'placeholder' => 'Masukkan nama produk'
+                        'column' => [
+                            'source' => 'UsrProduk',
+                            'column' => 'UsrName'
+                        ],
+                        'placeholder' => 'Masukkan Produk'
                     ])
                 ],
+                (Object)[
+                    'text' => 'No PO',
+                    'value' => json_encode([
+                        'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrProductionOrder',
+                            'column' => 'UsrName'
+                        ],
+                        'placeholder' => 'Masukkan Produk'
+                    ])
+                ],
+                (Object)[
+                    'text' => 'Proyek',
+                    'value' => json_encode([
+                        'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrViewJasaAnyam',
+                            'column' => 'UsrNamaProyek'
+                        ],
+                        'placeholder' => 'Masukkan Produk'
+                    ])
+                ],
+                (Object)[
+                    'text' => 'Lokasi',
+                    'value' => json_encode([
+                        'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrLokasi',
+                            'column' => 'UsrName'
+                        ],
+                        'placeholder' => 'Masukkan Lokasi'
+                    ])
+                ],
+                (Object)[
+                    'text' => 'Ibu',
+                    'value' => json_encode([
+                        'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrKeluargaIbu',
+                            'column' => 'UsrName'
+                        ],
+                        'placeholder' => 'Masukkan Nama Ibu'
+                    ])
+                ]
             ]
+
         ]);
     }
 

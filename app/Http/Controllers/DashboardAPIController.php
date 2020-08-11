@@ -241,4 +241,32 @@ class DashboardAPIController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function realisasiPerItemGrading(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'RealisasiPerItemGrading'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null
+        ]);
+
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function detailrealisasiPerItemGrading(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'DetailResponseDashboardRealisasiPerItemGrading'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null,
+            'Page' => $request->has('Page') ? $request->input('Page') : 1,
+            'isExport' => $request->has('isExport') ? $request->input('isExport') : false
+        ]);
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
 }

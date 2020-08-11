@@ -70,7 +70,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
 $router->group(['prefix' => 'dashboard', 'middleware' => 'auth_secret_key'], function () use ($router) {
     $router->get('realisasi-produksi-per-po',  ['uses' => 'DashboardController@realisasiProduksiPerPO']);
     $router->get('realisasi-per-item-grading',  ['uses' => 'DashboardController@realisasiPerItemGrading']);
-    $router->get('realisasi-per-item-grading-per-produk',  ['uses' => 'DashboardController@realisasiPerItemGradingPerProduk']);
     $router->get('pendapatan-per-lokasi',  ['uses' => 'DashboardController@pendapatanPerLokasi']);
     $router->get('top-x-ibu',  ['uses' => 'DashboardController@topXibu']);
     $router->get('jumlah-ibu-aktif-per-lokasi',  ['uses' => 'DashboardController@jumlahIbuAktifPerLokasi']);
@@ -101,4 +100,6 @@ $router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'],
     $router->post('detail-pendapatan-per-lokasi',  ['uses' => 'DashboardAPIController@detailPendapatanPerLokasi']);
     $router->post('realisasi-produksi-per-lokasi',  ['uses' => 'DashboardAPIController@realisasiProduksiPerLokasi']);
     $router->post('detail-realisasi-produksi-per-lokasi',  ['uses' => 'DashboardAPIController@detailRealisasiProduksiPerLokasi']);
+    $router->post('realisasi-per-item-grading',  ['uses' => 'DashboardAPIController@realisasiPerItemGrading']);
+    $router->post('detail-realisasi-per-item-grading',  ['uses' => 'DashboardAPIController@detailrealisasiPerItemGrading']);
 });
