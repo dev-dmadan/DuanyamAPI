@@ -102,25 +102,14 @@ function renderChart({categories = [], series = []}) {
                         try {
                             const filters = CURRENT_FILTER;
                             const textSeries = event.point.category.split('<br/>');
+                            const valueIbu = textSeries[0];
                             const extendFilter = [
                                 {
                                     column: {
-                                        source: 'UsrViewTotalBiayaPO',
-                                        column: 'UsrTanggalMonitoring2'
-                                    },
-                                    value: newTgl,
-                                    isPeriod: false,
-                                    valueStart: null,
-                                    valueEnd: null,
-                                    valueOperator: null,
-                                    isSeriesClick: true
-                                },
-                                {
-                                    column: {
-                                        source: 'UsrLokasi',
+                                        source: 'UsrKeluargaIbu',
                                         column: 'UsrName'
                                     },
-                                    value: valueLokasi,
+                                    value: valueIbu,
                                     isPeriod: false,
                                     valueStart: null,
                                     valueEnd: null,
@@ -225,12 +214,10 @@ function renderDetail({data = [], clearTable = false}) {
 
         const tbody = document.querySelector('#tableDetail tbody');
         data.forEach(item => {
-            let rows =  `<td><a href="${CREATIO_URL+EDIT_PAGE_URL.PRODUCTION_ORDER+item.ProductionOrderId}" target="_blank">${item.NoPO}</a></td>` +
-                        `<td>${item.Lokasi}</td>` +
+            let rows =  `<td>${item.Ibu}</td>` +
                         `<td>${item.TanggalMonitoring}</td>` +
                         `<td class="has-text-right">${item.TotalJasaAnyam}</td>` +
                         `<td class="has-text-right">${item.TotalJasaPengolahan}</td>` +
-                        `<td class="has-text-right">${item.TotalJasaKoordinasi}</td>` +
                         `<td class="has-text-right">${item.TotalJasa}</td>`;
 
             let tr = document.createElement('tr');

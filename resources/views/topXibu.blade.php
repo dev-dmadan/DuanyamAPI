@@ -1,22 +1,22 @@
 @extends('layout')
 
 @section('custom-filter')
-    <div class="columns">
-        <div class="column">
-            <div class="field is-horizontal">
-                <div class="field pr-3">
-                    <div class="select is-small is-rounded">
-                        <select id="select-filter-custom">
-                            <option selected disabled>Pilih filter</option>
+<div class="columns">
+    <div class="column">
+        <div class="field is-horizontal">
+            <div class="field pr-3">
+                <div class="select is-small is-rounded">
+                    <select id="select-filter-custom">
+                        <option value="" selected disabled>Pilih Filter</option>
                             @foreach ($filtersCustom as $filter)
-                                <option value="{{ $filter->value }}">{{ $filter->text}}</option>
+                                <option value="{{ $filter->value }}">{{ $filter->text }}</option>
                             @endforeach
-                        </select>
-                    </div>
+                    </select>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('detail-chart')
@@ -27,7 +27,7 @@
                 <th>Tanggal Monitoring</th>
                 <th class="has-text-right">Total Jasa Anyam</th>
                 <th class="has-text-right">Total Jasa Pengolahan</th>
-                <th class="has-text-right">Total pendapatan</th>
+                <th class="has-text-right">Total Jasa</th>
             </tr>
         </thead>
         <tbody>

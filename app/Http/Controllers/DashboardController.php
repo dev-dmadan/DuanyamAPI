@@ -122,7 +122,11 @@ class DashboardController extends Controller
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
-                        'placeholder' => 'Masukkan tanggal'
+                        'column' => [
+                            'source' => 'UsrViewTopXIbu',
+                            'column' => 'UsrTanggalMonitoring'
+                        ],
+                        'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
             ],
@@ -131,9 +135,13 @@ class DashboardController extends Controller
                     'text' => 'Ibu',
                     'value' => json_encode([
                         'type' => 'text',
-                        'placeholder' => 'Masukkan ibu'
+                        'column' => [
+                            'source' => 'UsrKeluargaIbu',
+                            'column' => 'UsrName'
+                        ],
+                        'placeholder' => 'Masukkan Nama Ibu'
                     ])
-                ],
+                ]
             ]
         ]);
     }
@@ -147,7 +155,11 @@ class DashboardController extends Controller
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
-                        'placeholder' => 'Masukkan tanggal'
+                        'column' => [
+                            'source' => 'UsrMonitoringOrder',
+                            'column' => 'UsrTanggalMonitoring'
+                        ],
+                        'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
             ]
@@ -297,38 +309,32 @@ class DashboardController extends Controller
         ]);
     }
     
-    public function perdapatanPerIbu()
+    public function pendapatanPerIbu()
     {
-        return view('perdapatanPerIbu', [
+        return view('pendapatanPerIbu', [
             'title' => 'Pendapatan per Ibu',
             'filters' => [
                 (Object)[
                     'text' => 'Tanggal Monitoring',
                     'value' => json_encode([
                         'type' => 'range-date',
+                        'column' => [
+                            'source' => 'UsrViewTopXIbu',
+                            'column' => 'UsrTanggalMonitoring'
+                        ],
                         'placeholder' => 'Masukkan Tanggal Monitoring'
                     ])
                 ]
             ],
             'filtersCustom' => [
                 (Object)[
-                    'text' => 'Nama Proyek',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan Nama Proyek'
-                    ])
-                ],
-                (Object)[
-                    'text' => 'No. PO',
-                    'value' => json_encode([
-                        'type' => 'text',
-                        'placeholder' => 'Masukkan No. PO'
-                    ])
-                ],
-                (Object)[
                     'text' => 'Nama Ibu',
                     'value' => json_encode([
                         'type' => 'text',
+                        'column' => [
+                            'source' => 'UsrKeluargaIbu',
+                            'column' => 'UsrName'
+                        ],
                         'placeholder' => 'Masukkan Nama Ibu'
                     ])
                 ]

@@ -247,6 +247,7 @@ function renderDetail({data = [], clearTable = false}) {
                         `<td>${item.TanggalMonitoring}</td>` +
                         `<td>${item.Lokasi}</td>` +
                         `<td>${item.Ibu}</td>` +
+                        `<td class="has-text-right">${item.Realisasi}</td>` +
                         `<td class="has-text-right">${item.GradeAPlus}</td>` +
                         `<td class="has-text-right">${item.GradeA}</td>` +
                         `<td class="has-text-right">${item.GradeB}</td>` +

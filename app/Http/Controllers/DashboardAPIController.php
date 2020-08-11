@@ -269,4 +269,110 @@ class DashboardAPIController extends Controller
         
         return $response->Success ? response()->json($response->Response) : response()->json($response);
     }
+
+    public function jumlahIbuAktifPerLokasi(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'JumlahIbuAktifPerLokasi'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null
+        ]);
+
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function detailJumlahIbuAktifPerLokasi(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'DetailJumlahIbuAktifPerLokasi'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null,
+            'Page' => $request->has('Page') ? $request->input('Page') : 1,
+            'isExport' => $request->has('isExport') ? $request->input('isExport') : false
+        ]);
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function topXibu(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'TopXIbu'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null
+        ]);
+
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function detailTopXibu(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'DetailTopXIbu'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null,
+            'Page' => $request->has('Page') ? $request->input('Page') : 1,
+            'isExport' => $request->has('isExport') ? $request->input('isExport') : false
+        ]);
+
+        if($response->Success) {
+            $newData = array_map(function($value) {
+                $value['TotalJasa'] = 'Rp '.number_format($value['TotalJasa'], 2, ',', '.');
+                $value['TotalJasaAnyam'] = 'Rp '.number_format($value['TotalJasaAnyam'], 2, ',', '.');
+                $value['TotalJasaPengolahan'] = 'Rp '.number_format($value['TotalJasaPengolahan'], 2, ',', '.');
+                
+                return $value;
+            }, $response->Response->Data);
+            $response->Response->Data = $newData;
+        }
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function pendapatanPerIbu(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'PendapatanPerIbu'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null
+        ]);
+
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
+
+    public function detailPendapatanPerIbu(Request $request)
+    {
+        $response = $this->restCreatio([
+            'service' => 'DuanyamCustomDashboardAPI',
+            'method' => 'DetailPendapatanPerIbu'
+        ], 'POST', true, [
+            'MainFilter' => $request->has('MainFilter') ? $request->input('MainFilter') : null,
+            'CustomFilter' => $request->has('CustomFilter') ? $request->input('CustomFilter') : null,
+            'Page' => $request->has('Page') ? $request->input('Page') : 1,
+            'isExport' => $request->has('isExport') ? $request->input('isExport') : false
+        ]);
+
+        if($response->Success) {
+            $newData = array_map(function($value) {
+                $value['TotalPendapatan'] = 'Rp '.number_format($value['TotalPendapatan'], 2, ',', '.');
+                $value['TotalJasaAnyam'] = 'Rp '.number_format($value['TotalJasaAnyam'], 2, ',', '.');
+                $value['TotalJasaPengolahan'] = 'Rp '.number_format($value['TotalJasaPengolahan'], 2, ',', '.');
+                
+                return $value;
+            }, $response->Response->Data);
+            $response->Response->Data = $newData;
+        }
+        
+        return $response->Success ? response()->json($response->Response) : response()->json($response);
+    }
 }

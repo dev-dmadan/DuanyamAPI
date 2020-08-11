@@ -34,7 +34,7 @@ async function getChartData({MainFilter, CustomFilter}) {
         const secretKey = getSecretKey();
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        const req = await fetch(`${APP_URL}/dashboard/api/jumlah-ibu-aktif-per-lokasi?SecretKey=${secretKey}`, {
+        const req = await fetch(`${APP_URL}/dashboard/api/pendapatan-per-ibu?SecretKey=${secretKey}`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
@@ -57,7 +57,7 @@ async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = fal
         const secretKey = getSecretKey();
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        const req = await fetch(`${APP_URL}/dashboard/api/detail-jumlah-ibu-aktif-per-lokasi?SecretKey=${secretKey}`, {
+        const req = await fetch(`${APP_URL}/dashboard/api/detail-pendapatan-per-ibu?SecretKey=${secretKey}`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
@@ -78,7 +78,7 @@ async function getDetailData({MainFilter, CustomFilter, Page = 1, isExport = fal
 }
 
 function renderChart({categories = [], series = []}) {
-    const myChart = Highcharts.chart('chart', {
+    Highcharts.chart('chart', {
         chart: {
             type: 'column'
         },
@@ -93,17 +93,23 @@ function renderChart({categories = [], series = []}) {
         },
         yAxis: {
             title: {
-                text: 'Jumlah Ibu Aktif'
+                text: 'Total Jasa'
             }
         },
         tooltip: {
             formatter: function() {
                 let newLabel =  `<span style="font-size: 12px">${this.key}</span><br/>` +
-                                `<span style="font-size: 12px">Pendapatan Ibu: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
+                                `<span style="font-size: 12px">${this.series.name}: <strong>Rp ${Highcharts.numberFormat(this.y, 2, ',', '.')}</strong></span>`;
                 return newLabel;
             }
         },
         plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
+            },
             series: {
                 cursor: 'pointer',
                 events: {
@@ -116,7 +122,7 @@ function renderChart({categories = [], series = []}) {
                             const extendFilter = [
                                 {
                                     column: {
-                                        source: 'UsrLokasi',
+                                        source: 'UsrKeluargaIbu',
                                         column: 'UsrName'
                                     },
                                     value: valueLokasi,
@@ -202,7 +208,12 @@ function renderChart({categories = [], series = []}) {
             enabled: false
         },
         series: series.map(item => {
-            item.color = COLORS.BLUE;
+            if(item.name.toLowerCase() == 'total jasa anyam') {
+                item.color = COLORS.GREEN;
+            } else if(item.name.toLowerCase() == 'total jasa pengolahan') {
+                item.color = COLORS.RED;
+            }
+
             return item;
         })
     });
@@ -216,9 +227,12 @@ function renderDetail({data = [], clearTable = false}) {
 
         const tbody = document.querySelector('#tableDetail tbody');
         data.forEach(item => {
-            let rows =  `<td>${item.Lokasi}</a></td>` +
-                        `<td>${item.Ibu}</td>` +
-                        `<td>${item.Periode}</td>`;
+            let rows =  `<td>${item.Ibu}</td>` +
+                        `<td>${item.Lokasi}</td>` +
+                        `<td>${item.TanggalMonitoring}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaAnyam}</td>` +
+                        `<td class="has-text-right">${item.TotalJasaPengolahan}</td>` +
+                        `<td class="has-text-right">${item.TotalPendapatan}</td>`;
 
             let tr = document.createElement('tr');
             tr.innerHTML = rows;
@@ -375,4 +389,3 @@ async function onClickExportData() {
         showLoading({isShow: false});
     }
 }
-

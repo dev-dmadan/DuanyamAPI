@@ -78,7 +78,7 @@ $router->group(['prefix' => 'dashboard', 'middleware' => 'auth_secret_key'], fun
     $router->get('realisasi-produksi-per-lokasi-per-po',  ['uses' => 'DashboardController@realisasiProduksiPerLokasiPerPO']);
     $router->get('total-biaya-per-po',  ['uses' => 'DashboardController@totalBiayaProduksiPerPO']);
     $router->get('total-biaya-per-semua-po',  ['uses' => 'DashboardController@totalBiayaProduksiPerSemuaPO']);
-    $router->get('pendapatan-per-ibu',  ['uses' => 'DashboardController@perdapatanPerIbu']);
+    $router->get('pendapatan-per-ibu',  ['uses' => 'DashboardController@pendapatanPerIbu']);
     $router->get('avarage-pendapatan-per-lokasi',  ['uses' => 'DashboardController@avaragePendapatanPerLokasi']);
     $router->get('raport-ibu',  ['uses' => 'DashboardController@raportPerIbu']);
 
@@ -104,4 +104,10 @@ $router->group(['prefix' => 'dashboard/api', 'middleware' => 'auth_secret_key'],
     $router->post('detail-realisasi-per-item-grading',  ['uses' => 'DashboardAPIController@detailrealisasiPerItemGrading']);
     $router->post('top-x-ibu',  ['uses' => 'DashboardAPIController@topXibu']);
     $router->post('detail-top-x-ibu',  ['uses' => 'DashboardAPIController@detailTopXibu']);
+    $router->post('jumlah-ibu-aktif-per-lokasi',  ['uses' => 'DashboardAPIController@jumlahIbuAktifPerLokasi']);
+    $router->post('detail-jumlah-ibu-aktif-per-lokasi',  ['uses' => 'DashboardAPIController@detailJumlahIbuAktifPerLokasi']);
+    $router->post('pendapatan-per-ibu',  ['uses' => 'DashboardAPIController@pendapatanPerIbu']);
+    $router->post('detail-pendapatan-per-ibu',  ['uses' => 'DashboardAPIController@detailPendapatanPerIbu']);
+    $router->post('raport-ibu',  ['uses' => 'DashboardAPIController@raportPerIbu']);
+    $router->post('detail-raport-ibu',  ['uses' => 'DashboardAPIController@detailRaportPerIbu']);
 });

@@ -29,6 +29,7 @@
                 <th>Tanggal Monitoring</th>
                 <th>Lokasi</th>
                 <th>Nama Ibu</th>
+                <th class="has-text-right">Realisasi Grading</th>
                 <th class="has-text-right">Grade A+</th>
                 <th class="has-text-right">Grade A</th>
                 <th class="has-text-right">Grade B</th>
