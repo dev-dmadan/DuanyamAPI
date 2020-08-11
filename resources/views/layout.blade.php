@@ -27,8 +27,8 @@
 
             </div>
 
-            <div class="columns">
-                <div class="column is-four-fifths">
+            <div class="columns mb-0">
+                <div class="column is-four-fifths pb-0">
                     <div class="control">    
                         <div class="field is-horizontal">
                             <p class="subtitle has-text-success pr-3">{{ $title }}</p>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 
-                <div class="column">
+                <div class="column mb-0">
                     <div class="dropdown is-right is-pulled-right">
                         <div class="dropdown-trigger">
                             <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">

@@ -206,8 +206,8 @@ function handlingFilter({scope, isCustom = false}) {
 
     SEARCH_BUTTON.disabled = true;
 
-    if(rootFilter.childElementCount > 3) {
-        rootFilter.children[2].remove();
+    if(rootFilter.childElementCount > 1) {
+        rootFilter.children[1].remove();
     }
 
     let fieldPencarianId = isCustom ? 'field-pencarian-custom' : 'field-pencarian';
