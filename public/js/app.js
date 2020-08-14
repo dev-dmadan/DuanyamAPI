@@ -204,10 +204,14 @@ function handlingFilter({scope, isCustom = false}) {
     const parentFilter = scope.parentElement.parentElement;
     const rootFilter = parentFilter.parentElement;
 
+    console.log({parentFilter, rootFilter});
+    console.log(rootFilter.childElementCount);
+    console.log(rootFilter.children);
+
     SEARCH_BUTTON.disabled = true;
 
-    if(rootFilter.childElementCount > 3) {
-        rootFilter.children[2].remove();
+    if(rootFilter.childElementCount > 2) {
+        rootFilter.children[1].remove();
     }
 
     let fieldPencarianId = isCustom ? 'field-pencarian-custom' : 'field-pencarian';
@@ -398,7 +402,7 @@ function handlingFilter({scope, isCustom = false}) {
         }
 
         document.querySelector(`#${removeFilter}`).addEventListener('click', function() {
-            rootFilter.children[isCustom ? 1 : 2].remove();
+            rootFilter.children[isCustom ? 1 : 1].remove();
             const FIELD_PENCARIAN = document.querySelector('#field-pencarian') != null ? document.querySelector(`#field-pencarian`).value : null;
             const FIELD_PENCARIAN_START = document.querySelector('#field-pencarian-start') != null ? document.querySelector(`#field-pencarian-start`).value : null;
             const FIELD_PENCARIAN_END = document.querySelector('#field-pencarian-end') != null ? document.querySelector(`#field-pencarian-end`).value : null;

@@ -18,6 +18,8 @@ class DashboardController extends Controller
     {
         return view('realisasiProduksiPerPO', [
             'title' => 'Realisasi Produksi per PO',
+            'tooltip' => 'Realisasi PO yang statusnya masih aktif',
+            'color' => self::$COLORS['BLUE'],
             'filters' => [
                 (Object)[
                     'text' => 'No. PO',
@@ -28,7 +30,6 @@ class DashboardController extends Controller
                             'column' => 'UsrName'
                         ],
                         'placeholder' => 'Masukkan No PO'
-                        // 'fetch' => 'dashboard/lookup/production-order/page/1?SecretKey='.env('API_SECRET_KEY')
                     ])
                 ],
                 (Object)[

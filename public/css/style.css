@@ -32,8 +32,38 @@ th {
     top: 0;
 }
 
-.box-custom {
-    border-top: 3px solid #20c964; 
+.box-custom-success {
+    border-top: 3px solid #48C774; 
+    border-radius: unset;
+}
+
+.box-custom-primary {
+    border-top: 3px solid #00D1B2; 
+    border-radius: unset;
+}
+
+.box-custom-link {
+    border-top: 3px solid #3273DC; 
+    border-radius: unset;
+}
+
+.box-custom-info {
+    border-top: 3px solid #209CEE; 
+    border-radius: unset;
+}
+
+.box-custom-danger {
+    border-top: 3px solid #FF3860; 
+    border-radius: unset;
+}
+
+.box-custom-warning {
+    border-top: 3px solid #FFDD57; 
+    border-radius: unset;
+}
+
+.box-custom-default {
+    border-top: 3px solid #363636; 
     border-radius: unset;
 }
 

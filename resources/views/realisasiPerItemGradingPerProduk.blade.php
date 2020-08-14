@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('template.layout')
 
 @section('custom-filter')
     <div class="columns">

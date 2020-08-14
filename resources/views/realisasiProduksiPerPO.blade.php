@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('template.layout')
 @section('detail-chart')
     <table id="tableDetail" class="table is-striped is-hoverable is-fullwidth">
         <thead>
