@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             'username' => 'Supervisor',
             'name' => 'Supervisor',
             'password' => Hash::make('Supervisor'),
+            'is_active' => true
         ]);
     }
 }

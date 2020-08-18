@@ -150,7 +150,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrViewJasaAnyam',
                         'column' => 'UsrTanggalMonitoring'
@@ -163,7 +163,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Produk',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrProduk',
                         'column' => 'UsrName'
@@ -214,7 +214,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrMonitoringOrder',
                         'column' => 'UsrTanggalMonitoring'
@@ -227,7 +227,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Lokasi',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrLokasi',
                         'column' => 'UsrName'
@@ -278,7 +278,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrViewTopXIbu',
                         'column' => 'UsrTanggalMonitoring'
@@ -291,7 +291,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Ibu',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrKeluargaIbu',
                         'column' => 'UsrName'
@@ -321,7 +321,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrMonitoringOrder',
                         'column' => 'UsrTanggalMonitoring'
@@ -361,7 +361,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrMonitoringOrder',
                         'column' => 'UsrTanggalMonitoring'
@@ -392,7 +392,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Lokasi',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrLokasi',
                         'column' => 'UsrName'
@@ -423,7 +423,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'No. PO',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrProductionOrder',
                         'column' => 'UsrName'
@@ -435,7 +435,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Lokasi',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrLokasi',
                         'column' => 'UsrName'
@@ -467,7 +467,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal PO Selesai',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrProductionOrder',
                         'column' => 'UsrTanggalClosingPO'
@@ -498,7 +498,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal PO Selesai',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrProductionOrder',
                         'column' => 'UsrTanggalClosingPO'
@@ -511,7 +511,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'No. PO',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrProductionOrder',
                         'column' => 'UsrName'
@@ -541,7 +541,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrViewTopXIbu',
                         'column' => 'UsrTanggalMonitoring'
@@ -554,7 +554,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Nama Ibu',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrKeluargaIbu',
                         'column' => 'UsrName'
@@ -584,7 +584,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'UsrMonitoringOrder',
                         'column' => 'UsrTanggalMonitoring'
@@ -597,7 +597,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Lokasi',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'UsrLokasi',
                         'column' => 'UsrName'
@@ -627,7 +627,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Tanggal Monitoring',
                 'value' => json_encode([
-                    'type' => 'range-date',
+                    'type' => ColumnType::$RANGE_DATE,
                     'column' => [
                         'source' => 'A',
                         'column' => 'TanggalMonitoring'
@@ -640,7 +640,7 @@ class DashboardController extends Controller
             (Object)[
                 'text' => 'Nama Ibu',
                 'value' => json_encode([
-                    'type' => 'text',
+                    'type' => ColumnType::$TEXT,
                     'column' => [
                         'source' => 'A',
                         'column' => 'Ibu'

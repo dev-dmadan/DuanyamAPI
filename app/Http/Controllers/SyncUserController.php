@@ -35,7 +35,8 @@ class SyncUserController extends Controller
                     [
                         'name' => $user['ContactName'], 
                         'username' => $user['UserName'], 
-                        'password' => Hash::make($user['UserPassword'])
+                        'password' => Hash::make($user['UserPassword']),
+                        'is-active' => $user['IsActive']
                     ]
                 );
             }
