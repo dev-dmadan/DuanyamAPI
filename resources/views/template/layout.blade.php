@@ -44,21 +44,25 @@
                 <div class="column mb-0">
                     <div class="control is-pulled-right">
                         <div class="field is-horizontal">
+
+                            @if(isset($orderBy) && !empty($orderBy))
                             <div class="field pr-3">
                                 <div class="select is-small is-rounded">
-                                    <select id="select-limit-chart">
+                                    <select id="select-order-by">
                                         <option value="" selected disabled>Diurutkan berdasarkan</option>
-                                        <option value="No PO">No PO</option>
-                                        <option value="% Realisasi">% Realisasi</option>
+                                        @foreach ($orderBy as $order)
+                                            <option value="{{ $order->value }}">{{ $order->text}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
+                            @endif
 
                             <div class="field pr-3">
                                 <div class="select is-small is-rounded">
                                     <select id="select-limit-chart">
-                                        <option value="" selected disabled>Limit chart</option>
-                                        <option value="10">10</option>
+                                        <option value="" disabled>Limit chart</option>
+                                        <option value="10" selected>10</option>
                                         <option value="10">25</option>
                                         <option value="10">50</option>
                                         <option value="10">Semua</option>
@@ -104,7 +108,7 @@
                                 <div class="select is-small is-rounded">
                                     <select id="select-filter">
                                         <option value="" selected disabled>Pilih filter</option>
-                                        @foreach ($filters as $filter)
+                                        @foreach ($mainFilters as $filter)
                                             <option value="{{ $filter->value }}">{{ $filter->text}}</option>
                                         @endforeach
                                     </select>
@@ -123,7 +127,24 @@
                 </div>
             </div>
 
-            @yield('custom-filter')
+            @if(isset($customFilter) && !empty($customFilter))
+            <div class="columns">
+                <div class="column">
+                    <div class="field is-horizontal">
+                        <div class="field pr-3">
+                            <div class="select is-small is-rounded">
+                                <select id="select-filter-custom">
+                                    <option value="" selected disabled>Pilih Filter</option>
+                                        @foreach ($customFilter as $filter)
+                                            <option value="{{ $filter->value }}">{{ $filter->text }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
 
             <div id="chart" style="width:100%; height:400px;"></div>
             <div id="detail-chart" class="table-container is-hidden" style="height:400px; overflow-y: auto;"> 
